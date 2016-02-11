@@ -1,4 +1,4 @@
-   var gridDist = 180;
+   var gridDist = 400;
    var distortionAmt = 0;
    var changereverb = 0;
     var chorus = new Tone.Chorus(4, 2.5, 0.5);
@@ -19,10 +19,10 @@ var fm = new Tone.SimpleFM().connect(dist);
            //play a middle c for the duration of an 8th note
            synth.triggerAttackRelease("C4", "8n");
            fm.triggerAttackRelease("A1", "8n");
-distortionAmt=distortionAmt+.1;
+distortionAmt=distortionAmt+.2;
            // scopeheight=scopeheight+1;
            changeSize();
-           gridDist=gridDist-2;
+           gridDist=gridDist-12;
            changereverb=changereverb+.5
        }
    }
