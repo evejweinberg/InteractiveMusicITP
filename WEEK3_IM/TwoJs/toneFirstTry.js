@@ -1,202 +1,237 @@
-   var gridDist = 400;
-   var distortionAmt = 0;
-   var changereverb = 0;
-    var chorus = new Tone.Chorus(4, 2.5, 0.5);
-   var synth = new Tone.SimpleSynth().toMaster().connect(chorus);
-   var reverb = new Tone.JCReverb(changereverb).connect(Tone.Master);
+var gridDist = 400; //this will get smaller and smaller on each mouse click
+var distortionAmt = 0;
+var changereverb = 0;
+var maskRad = 800;
+var randNote = [];
+var synths = [];
+var timing = ["0:0", "0:1", "0:2", "0:3", "1:0", "1:1", "1:1", "1:2"]
+
+// what is a chorus? what are these three parameters?
+var chorus = new Tone.Chorus(4, 2.5, 0.5);
+// how does connect work? what should i be chaining together and in what order?
+//create one of Tone's built-in synthesizers and connect it to the master output
+var synth = new Tone.SimpleSynth().toMaster().connect(chorus);
+var reverb = new Tone.JCReverb(changereverb).connect(Tone.Master);
 
 
-   var dist = new Tone.Distortion(distortionAmt).toMaster();
+var dist = new Tone.Distortion(distortionAmt).toMaster(); //distortionAmt to get bigger on click
 var fm = new Tone.SimpleFM().connect(dist);
 //this sounds good on bass notes
 // fm.triggerAttackRelease("A1", "8n");
 
 
-   function draw() {
+
+//should I call this once first so the shapes show up?
+// changeSize ();
+
+//p5 draw loop
+$(document).ready(function() {
+ 
+    $("body").on('click', function() {
 
 
-       if (mouseIsPressed) {
-           //play a middle c for the duration of an 8th note
-           synth.triggerAttackRelease("C4", "8n");
-           fm.triggerAttackRelease("A1", "8n");
-distortionAmt=distortionAmt+.2;
-           // scopeheight=scopeheight+1;
-           changeSize();
-           gridDist=gridDist-12;
-           changereverb=changereverb+.5
-       }
-   }
+        synth.triggerAttackRelease("C4", "8n");
+        // fm.triggerAttackRelease("A1", "8n");
+        // distortionAmt=distortionAmt+.2
+        // console.log('clck')
+            // call the twoJS function
+            //delete it first
+        $('body').html('')
+        maskRad=maskRad-20;
+        changeSize();
+        //cursor();
+        gridDist = gridDist - 12;
+        changereverb = changereverb + .5;
 
-	function changeSize (){
+    })
 
-       	console.log("gridDist is now: ", gridDist, "reverb is: ",changereverb)
-       	console.log('the begining')
-       var colors = [
-           'rgb(178,138,61)',
-           'rgb(255,91,76)',
-           'rgb(255,144,160)',
-           'rgb(255, 255,255)',
-           'rgb(100,100,100)'
-       ];
+});
 
-       var type = /(canvas|webgl)/.test(url.type) ? url.type : 'svg';
-       var two = new Two({
-           type: Two.Types[type],
-           fullscreen: true,
-           autostart: true
-       }).appendTo(document.body);
+var two;
+var container;
+var center;
 
-       var background = two.makeRectangle(two.width / 2, two.height / 2, two.width, two.height);
-       background.noStroke();
-       background.fill = 'rgb(248,187,209)';
-       background.name = 'background';
+function changeSize() {
+    // var background = null;
+    // console.log("gridDist is now: ", gridDist, "reverb is: ", changereverb)
+    var colors = [
+        'rgb(178,138,61)',
+        'rgb(255,91,76)',
+        'rgb(255,144,160)',
+        'rgb(255, 255,255)',
+        'rgb(100,100,100)'
+    ];
 
-       var container = two.makeGroup(background);
+    //what does this line do?
+    var type = /(canvas|webgl)/.test(url.type) ? url.type : 'svg';
+    two = new Two({
+        type: Two.Types[type],
+        fullscreen: true,
+        autostart: true
+    }).appendTo(document.body);
 
-       var rows = Math.floor(two.height / gridDist);
-       var cols = Math.floor(two.width / gridDist);
-       var width = Math.round(two.height / Math.max(rows, cols));
+    background = two.makeRectangle(two.width / 2, two.height / 2, two.width, two.height);
+    background.noStroke();
+    background.fill = 'rgb(248,187,209)';
+    background.name = 'background';
 
-       for (var i = 0; i < rows; i++) {
+    container = two.makeGroup(background);
 
-           var even = !!(i % 2);
-           var vi = i / (rows - 1);
+    var rows = Math.floor(two.height / gridDist);
+    var cols = Math.floor(two.width / gridDist);
+    var width = Math.round(two.height / Math.max(rows, cols));
 
-           for (var j = 0; j < cols; j++) {
+    for (var i = 0; i < rows; i++) {
 
-               var k = j;
+        var even = !!(i % 2);
+        var vi = i / (rows - 1);
 
-               if (even) {
-                   k += 0.5;
-                   if (j >= cols - 1) {
-                       continue;
-                   }
-               }
+        for (var j = 0; j < cols; j++) {
 
-               var hi = k / (cols - 1);
+            var k = j;
 
-               var type = !!(j % 2) ? 'Squiggle' : 'Nonagon';
-               var scopeheight = !!(j % 2) ? width / 3 : width;
-               var shape = two['make' + type](width, scopeheight, Math.floor(Math.random() * 3) + 3);
-               var color = colors[Math.floor(Math.random() * colors.length)];
+            if (even) {
+                k += 0.5;
+                if (j >= cols - 1) {
+                    continue;
+                }
+            }
 
-               shape.rotation = Math.floor(Math.random() * 4) * Math.PI / 2 + Math.PI / 4;
-               shape.translation.set(hi * two.width, vi * two.height);
+            var hi = k / (cols - 1);
+//true boolean representation
+//converts from 0 to false
+// ? squiggle otherwise nonagon
+            var type = !!(j % 2) ? 'Squiggle' : 'Nonagon';
+            var scopeheight = !!(j % 2) ? width / 3 : width;
+            //similar to two.make
+            var shape = two['make' + type](width, scopeheight, Math.floor(Math.random() * 3) + 3);
+            var color = colors[Math.floor(Math.random() * colors.length)];
 
-               if (j % 2) {
-                   shape.noFill();
-                   shape.stroke = color;
-                   shape.linewidth = 4;
-                   shape.cap = 'round';
-               } else {
-                   shape.noStroke();
-                   shape.fill = color;
-               }
+            shape.rotation = Math.floor(Math.random() * 4) * Math.PI / 2 + Math.PI / 4;
+            shape.translation.set(hi * two.width, vi * two.height);
 
-               shape.step = (Math.floor(Math.random() * 8) / 8) * Math.PI / 60;
-               shape.step *= Math.random() > 0.5 ? -1 : 1;
+            if (j % 2) {
+                shape.noFill();
+                shape.stroke = color;
+                shape.linewidth = 4;
+                shape.cap = 'round';
+            } else {
+                shape.noStroke();
+                shape.fill = color;
+            }
 
-               container.add(shape);
+            shape.step = .01;
+            // shape.step *= Math.random() > 0.5 ? -1 : 1;
 
-           }
+            container.add(shape);
 
-       }
+        }
 
-       
-      }
-
+    }
 
 
-   $(function() {
-   	var cursor = two.makeCircle(0, 0, Math.min(two.height, two.width) / 5);
-       cursor.outline = two.makeCircle(0, 0, Math.min(two.height, two.width) / 5);
-       cursor.target = new Two.Vector();
 
-       cursor.outline.noFill();
-       cursor.outline.stroke = 'rgba(20, 100, 100, 0.1)';
-       cursor.outline.linewidth = 40;
 
-       container.mask = cursor;
-       cursor.target.set(two.width / 2, two.height / 2);
-       cursor.translation.copy(cursor.target);
+ 
+    var cursor = two.makeCircle(0, 0, maskRad);
+    cursor.outline = two.makeCircle(0, 0, maskRad);
+    cursor.target = new Two.Vector();
 
-       var center = _.debounce(function() {
-           cursor.target.set(two.width / 2, two.height / 2);
-       }, 1000);
+    cursor.outline.noFill();
+    cursor.outline.stroke = 'rgba(20, 100, 100, 0.1)';
+    cursor.outline.linewidth = 40;
 
-       var drag = function(e) {
-           cursor.target.set(e.clientX, e.clientY);
-           // center();
-       };
+    container.mask = cursor;
+    //call once!
+    cursor.target.set(two.width / 2, two.height / 2);
 
-       var touchDrag = function(e) {
-           e.preventDefault();
-           var touch = e.originalEvent.changedTouches[0];
-           drag({
-               clientX: touch.pageX,
-               clientY: touch.pageY
-           });
-           return false;
-       };
+    
+    cursor.translation.copy(cursor.target);
 
-       $(window)
-           .bind('mousemove', drag)
-           .bind('touchmove', touchDrag);
+    center = _.debounce(function() {
+        cursor.target.set(two.width / 2, two.height / 2);
+    }, 1000);
 
-       two.bind('update', function() {
+    var drag = function(e) {
+        cursor.target.set(e.clientX, e.clientY);
+        // center();
+    };
 
-           cursor.translation.x += (cursor.target.x - cursor.translation.x) * 0.125;
-           cursor.translation.y += (cursor.target.y - cursor.translation.y) * 0.125;
-           cursor.outline.translation.copy(cursor.translation);
+    var touchDrag = function(e) {
+        e.preventDefault();
+        var touch = e.originalEvent.changedTouches[0];
+        drag({
+            clientX: touch.pageX,
+            clientY: touch.pageY
+        });
+        return false;
+    };
 
-           for (var k in container.children) {
-               var child = container.children[k];
-               if (child.name === 'background') {
-                   continue;
-               }
-               child.rotation += child.step;
-           }
+    $(window)
+        .bind('mousemove', drag)
+        .bind('touchmove', touchDrag);
 
-       });
+    two.bind('update', function() {
 
-   		
+        cursor.translation.x += (cursor.target.x - cursor.translation.x) * 0.125;
+        cursor.translation.y += (cursor.target.y - cursor.translation.y) * 0.125;
+        cursor.outline.translation.copy(cursor.translation);
 
-   });
+        for (var k in container.children) {
+            var child = container.children[k];
+            if (child.name === 'background') {
+                continue;
+            }
+          
+            child.rotation += child.step;
+              // console.log(child.step)
+        }
 
-   Two.prototype.makeSquiggle = function(width, height, phi) {
+    });
 
-       var amt = 64;
+  
 
-       var squiggle = this.makeCurve(
-           _.map(_.range(amt), function(i) {
-               var pct = i / (amt - 1);
-               var theta = pct * Math.PI * 2 * phi + Math.PI / 2;
-               var x = width * pct - width / 2;
-               var y = height / 5 * Math.sin(theta);
-               return new Two.Anchor(x, y);
-           }),
-           true
-       );
 
-       return squiggle;
+}
 
-   };
 
-   Two.prototype.makeNonagon = function(width, height, sides) {
 
-       width /= 2;
-       height /= 2;
 
-       var shape = this.makePath(
-           _.map(_.range(sides), function(i) {
-               var pct = i / sides;
-               var theta = Math.PI * 2 * pct - Math.PI / 2;
-               var x = width * Math.cos(theta);
-               var y = height * Math.sin(theta);
-               return new Two.Anchor(x, y);
-           })
-       );
 
-       return shape;
+Two.prototype.makeSquiggle = function(width, height, phi) {
 
-   };
+    var amt = 64;
+
+    var squiggle = this.makeCurve(
+        _.map(_.range(amt), function(i) {
+            var pct = i / (amt - 1);
+            var theta = pct * Math.PI * 2 * phi + Math.PI / 2;
+            var x = width * pct - width / 2;
+            var y = height / 5 * Math.sin(theta);
+            return new Two.Anchor(x, y);
+        }),
+        true
+    );
+
+    return squiggle;
+
+};
+
+Two.prototype.makeNonagon = function(width, height, sides) {
+
+    width /= 2;
+    height /= 2;
+
+    var shape = this.makePath(
+        _.map(_.range(sides), function(i) {
+            var pct = i / sides;
+            var theta = Math.PI * 2 * pct - Math.PI / 2;
+            var x = width * Math.cos(theta);
+            var y = height * Math.sin(theta);
+            return new Two.Anchor(x, y);
+        })
+    );
+
+    return shape;
+
+};
