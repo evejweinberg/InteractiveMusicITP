@@ -27,8 +27,9 @@ var osc = new Tone.Oscillator().toMaster().start(0);
 $(document).ready(function() {
     ///////////everything below so we know its ready
 
-    var sampleURLArray = ["http://itpblog.evejweinberg.com/Homework/samples/Hola.mp3",
-        "http://tonejs.github.io/Tone.js/examples/audio/FWDL.mp3"
+    var sampleURLArray = ["http://evejweinberg.github.io/samples/Hola.mp3",
+        "http://evejweinberg.github.io/samples/Meow.mp3",
+        "http://evejweinberg.github.io/samples/Buzz.mp3"
     ]
 
     var allNotes = [

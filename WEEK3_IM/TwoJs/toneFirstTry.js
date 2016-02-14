@@ -1,10 +1,19 @@
-var gridDist = 400; //this will get smaller and smaller on each mouse click
+var gridDist = 30; //this will get smaller and smaller on each mouse click
 var distortionAmt = 0;
 var changereverb = 0;
 var maskRad = 800;
 var randNote = [];
 var synths = [];
+var rvgr = 0;
 var timing = ["0:0", "0:1", "0:2", "0:3", "1:0", "1:1", "1:1", "1:2"]
+var sampleURLArray = ["http://evejweinberg.github.io/samples/Hola.mp3",
+    "http://evejweinberg.github.io/samples/Meow.wav",
+    "http://evejweinberg.github.io/samples/Buzz.m4a"
+]
+var player;
+
+
+
 
 // what is a chorus? what are these three parameters?
 var chorus = new Tone.Chorus(4, 2.5, 0.5);
@@ -26,26 +35,37 @@ var fm = new Tone.SimpleFM().connect(dist);
 
 //p5 draw loop
 $(document).ready(function() {
- 
+
     $("body").on('click', function() {
-
-
-        synth.triggerAttackRelease("C4", "8n");
-        // fm.triggerAttackRelease("A1", "8n");
-        // distortionAmt=distortionAmt+.2
-        // console.log('clck')
-            // call the twoJS function
-            //delete it first
+        //pick a random number
+        var randNote = Math.floor((Math.random() * sampleURLArray.length) + 0);
+        console.log(randNote)
+        // make a player with that smaple
+        player = new Tone.Player(sampleURLArray[randNote]).toMaster();
+        //when loaded, play that sample
+        Tone.Buffer.on("load", function() {
+            player.start();
+        });
+      
         $('body').html('')
-        maskRad=maskRad-20;
+        rvgr = rvgr+.1;
         changeSize();
-        //cursor();
-        gridDist = gridDist - 12;
+        gridDist = gridDist + 12;
+        maskRad = maskRad - 20;
         changereverb = changereverb + .5;
+            var reverbGrow = new Tone.Freeverb(rvgr,3000).toMaster();
+reverbGrow.wet.value = 1;
+player.connect(reverbGrow);
 
     })
 
+
+
 });
+
+
+
+
 
 var two;
 var container;
@@ -98,9 +118,9 @@ function changeSize() {
             }
 
             var hi = k / (cols - 1);
-//true boolean representation
-//converts from 0 to false
-// ? squiggle otherwise nonagon
+            //true boolean representation
+            //converts from 0 to false
+            // ? squiggle otherwise nonagon
             var type = !!(j % 2) ? 'Squiggle' : 'Nonagon';
             var scopeheight = !!(j % 2) ? width / 3 : width;
             //similar to two.make
@@ -132,7 +152,7 @@ function changeSize() {
 
 
 
- 
+
     var cursor = two.makeCircle(0, 0, maskRad);
     cursor.outline = two.makeCircle(0, 0, maskRad);
     cursor.target = new Two.Vector();
@@ -145,7 +165,7 @@ function changeSize() {
     //call once!
     cursor.target.set(two.width / 2, two.height / 2);
 
-    
+
     cursor.translation.copy(cursor.target);
 
     center = _.debounce(function() {
@@ -182,14 +202,14 @@ function changeSize() {
             if (child.name === 'background') {
                 continue;
             }
-          
+
             child.rotation += child.step;
-              // console.log(child.step)
+            // console.log(child.step)
         }
 
     });
 
-  
+
 
 
 }
