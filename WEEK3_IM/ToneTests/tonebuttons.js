@@ -11,9 +11,9 @@ var synth2 = new Tone.SimpleSynth().toMaster();
 var reverb = new Tone.JCReverb(changereverb).connect(Tone.Master);
 var randNote = [];
 var synths = [];
-var timing = ["0:0", "0:1", "0:2", "0:3", "1:0", "1:1", "1:1", "1:2"]
+// var timing = ["0:0", "0:1", "0:2", "0:3", "1:0", "1:1", "1:1", "1:2"]
 
-
+// 
 var dist = new Tone.Distortion(distortionAmt).toMaster(); //distortionAmt to get bigger on click
 var fm = new Tone.SimpleFM().connect(dist);
 //this sounds good on bass notes
@@ -27,19 +27,11 @@ var osc = new Tone.Oscillator().toMaster().start(0);
 $(document).ready(function() {
     ///////////everything below so we know its ready
 
-    var sampleURLArray = ["http://evejweinberg.github.io/samples/Hola.mp3",
-        "http://evejweinberg.github.io/samples/Meow.mp3",
-        "http://evejweinberg.github.io/samples/Buzz.mp3"
-    ]
 
     var allNotes = [
         "C2", "E1", "G2", "B4", "D3", "A3", "A2"
     ]
-    var sampleURL = "http://itpblog.evejweinberg.com/Hola.wav";
-    var sampleYT = "http://tonejs.github.io/Tone.js/examples/audio/FWDL.mp3"
 
-    var player1 = new Tone.Player(sampleYT).toMaster();
-    var player2 = new Tone.Player(sampleURLArray[0]).toMaster();
 
 
     //trigger the start of the sample once its loaded
@@ -49,41 +41,43 @@ $(document).ready(function() {
 
 
     $("body").on('click', function() {
+        console.log('click')
 
         osc.frequency.setValueAtTime("C4", 0);
-osc.frequency.exponentialRampToValueAtTime("C1", 2);
+        osc.frequency.exponentialRampToValueAtTime("C1", 2);
 
-osc.stop(3);
-
+        osc.stop(3);
+   
 
         //push a new number to the array, random number in the scope
-        randNote[clickNum] = Math.floor((Math.random() * allNotes.length) + 0);
-        console.log(randNote)
+        randNote = Math.floor((Math.random() * allNotes.length) + 0);
+        // console.log(randNote)
 
         var randNoteB = Math.floor((Math.random() * allNotes.length) + 0);
+             $('#rand').text(allNotes[randNoteB]);
 
 
         //display what note the most recent one is
         $('#rand').text(allNotes[randNote[clickNum]]);
 
         for (var i = 0; i < clickNum; i++) {
-            console.log(timing[i])
+
             // synth2.triggerAttackRelease(allNotes[randNote[clickNum]], "4n");
 
-            synth2.triggerAttackRelease("allNotes[randNote[clickNum]]", "4n");
+            // synth2.triggerAttackRelease("allNotes[randNote]", "4n");
 
 
         }
-        // synth2.triggerAttackRelease(allNotes[randNoteB], "4n");
+        synth2.triggerAttackRelease(allNotes[randNoteB], "4n");
 
 
-        distortionAmt = distortionAmt + .2
-            // console.log('clck')
-            // call the twoJS function
-            //delete it first
-            // $('body').html('')
+        // distortionAmt = distortionAmt + .2
+        // console.log('clck')
+        // call the twoJS function
+        //delete it first
+        // $('body').html('')
 
-        changereverb = changereverb + .5;
+        // changereverb = changereverb + .5;
         clickNum++;
 
 

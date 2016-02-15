@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+<head>
+    <style>
+    .dropshadow {
+        /*box-shadow: 1px 1px;*/
+        -webkit-filter: drop-shadow(1px 1px .5px rgba(0, 0, 0, 0.5));
+        filter: url(#drop-shadow);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+    }
+    
+    #title {
+        margin: 0px 00px 00px -60px;
+        left: 50%;
+        top: 50%;
+        text-align: center;
+        position: absolute;
+        font-size: 4em;
+        font-family: Open Sans;
+        font-weight: 700;
+        font-style: bold;
+        color: rgb(255,91,76);
+        background-color: rgb(255,144,160);
+        /*padding-left: 30px;*/
+        /*padding-right: 30px;*/
+        padding: 70px -10px 70px -10px;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+    #pink{
+        background-color: rgb(255,144,160);
+    }
+    
+    #bgdiv {
+        height: 100%;
+        width: 100%;
+        /*background-image: url("assets/bg.png");*/
+    }
+    
+    body,
+    html {
+        height: 100%;
+        background-color: rgb(178, 138, 61);
+        background-image: url("assets/bg.png");
+    }
+    
+    #two_1 {
+        background-color: rgb(178, 138, 61);
+    }
+    </style>
+    <title>Open vs Closed --- ToneJS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- <link rel="image_src" href="../images/logo.gif" /> -->
+    <!-- <link rel="shortcut icon" type="image/gif" href="../images/favicon.gif"> -->
+    <script src="url.js"></script>
+    <script src="p5.min.js"></script>
+    <script src="http://cdn.tonejs.org/latest/Tone.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="https://code.createjs.com/tweenjs-0.6.2.min.js
+"></script>
+    <!-- <script src="../third-party/jquery.js"></script> -->
+    <script src="two.js"></script>
+    <script src="toneFirstTry.js"></script>
+</head>
+
+<body>
+<div class="dropshadow" id="pink">
+    <p id="title" class = "dropshadow">CLICK</p>
+    </div>
+    <div id="bgdiv"></div>
+</body>
+
+</html>

@@ -1,61 +1,74 @@
-var gridDist = 30; //this will get smaller and smaller on each mouse click
+var gridDist = 260; //this will get smaller and smaller on each mouse click
 var distortionAmt = 0;
 var changereverb = 0;
 var maskRad = 800;
 var randNote = [];
 var synths = [];
 var rvgr = 0;
+var changeDelay = 0;
 var timing = ["0:0", "0:1", "0:2", "0:3", "1:0", "1:1", "1:1", "1:2"]
-var sampleURLArray = ["http://evejweinberg.github.io/samples/Hola.mp3",
+var sampleURLArray = ["http://evejweinberg.github.io/samples/Hola.mp3", "http://evejweinberg.github.io/samples/triangle.m4a",
     "http://evejweinberg.github.io/samples/Meow.wav",
-    "http://evejweinberg.github.io/samples/Buzz.m4a"
+    "http://evejweinberg.github.io/samples/trombone.m4a", "http://evejweinberg.github.io/samples/piano.wav", "http://evejweinberg.github.io/samples/Muww.wav"
 ]
 var player;
+var cursor;
+var panVar = 0.1;
+var decay = 30;
+
+
+//not using this, using my own sounds instead
+var allNotes = [
+    "C2", "E1", "G2", "B4", "D3", "A3", "A2"
+]
 
 
 
 
-// what is a chorus? what are these three parameters?
-var chorus = new Tone.Chorus(4, 2.5, 0.5);
-// how does connect work? what should i be chaining together and in what order?
-//create one of Tone's built-in synthesizers and connect it to the master output
-var synth = new Tone.SimpleSynth().toMaster().connect(chorus);
-var reverb = new Tone.JCReverb(changereverb).connect(Tone.Master);
+// ([frequency][, delayTime][, depth])
 
 
-var dist = new Tone.Distortion(distortionAmt).toMaster(); //distortionAmt to get bigger on click
-var fm = new Tone.SimpleFM().connect(dist);
+
+
+
+
+
+// var dist = new Tone.Distortion(distortionAmt).toMaster(); //distortionAmt to get bigger on click
+// var fm = new Tone.SimpleFM().connect(dist);
 //this sounds good on bass notes
-// fm.triggerAttackRelease("A1", "8n");
 
 
-
-//should I call this once first so the shapes show up?
-// changeSize ();
-
-//p5 draw loop
 $(document).ready(function() {
+
 
     $("body").on('click', function() {
         //pick a random number
         var randNote = Math.floor((Math.random() * sampleURLArray.length) + 0);
-        console.log(randNote)
-        // make a player with that smaple
-        player = new Tone.Player(sampleURLArray[randNote]).toMaster();
-        //when loaded, play that sample
+        // console.log("pan is  " + panVar)
+        // console.log(pan.pan())
+        var chorus = new Tone.Chorus(3, changeDelay, 0.8);
+        var pan = new Tone.Panner(panVar);
+        var reverbGrow = new Tone.Freeverb(rvgr, 3000);
+        player = new Tone.Player(sampleURLArray[randNote]);
+        player.chain(chorus, reverbGrow, pan, Tone.Master)
+            //when loaded, play that sample
         Tone.Buffer.on("load", function() {
             player.start();
         });
-      
+        //clear it all
         $('body').html('')
-        rvgr = rvgr+.1;
+
+        //update the parameters
+        //my var pan has a method called pan that allows me to schedule a new value
+        pan.pan.linearRampToValue(panVar, .10);
+
         changeSize();
-        gridDist = gridDist + 12;
-        maskRad = maskRad - 20;
-        changereverb = changereverb + .5;
-            var reverbGrow = new Tone.Freeverb(rvgr,3000).toMaster();
-reverbGrow.wet.value = 1;
-player.connect(reverbGrow);
+        cursorStuff();
+        gridDist = gridDist - 14;
+        maskRad = maskRad - decay*1.3;
+        changeDelay = changeDelay + 1;
+        rvgr = rvgr + .1;
+        reverbGrow.wet.value = 1;
 
     })
 
@@ -82,18 +95,21 @@ function changeSize() {
         'rgb(100,100,100)'
     ];
 
-    //what does this line do?
+    // //what does this line do?
     var type = /(canvas|webgl)/.test(url.type) ? url.type : 'svg';
     two = new Two({
         type: Two.Types[type],
         fullscreen: true,
         autostart: true
     }).appendTo(document.body);
+    $('body').addClass("dropshadow");
 
     background = two.makeRectangle(two.width / 2, two.height / 2, two.width, two.height);
     background.noStroke();
     background.fill = 'rgb(248,187,209)';
     background.name = 'background';
+
+
 
     container = two.makeGroup(background);
 
@@ -150,11 +166,34 @@ function changeSize() {
     }
 
 
+    two.bind('update', function() {
+
+        cursor.translation.x += (cursor.target.x - cursor.translation.x) * 0.125;
+        cursor.translation.y += (cursor.target.y - cursor.translation.y) * 0.125;
+        cursor.outline.translation.copy(cursor.translation);
+
+        for (var k in container.children) {
+            var child = container.children[k];
+            if (child.name === 'background') {
+                continue;
+            }
+
+            child.rotation += (child.step / 2);
+            // console.log(child.step)
+        }
+
+    });
 
 
 
-    var cursor = two.makeCircle(0, 0, maskRad);
-    cursor.outline = two.makeCircle(0, 0, maskRad);
+
+}
+
+function cursorStuff()
+
+{
+    cursor = two.makeCircle(two.width / 2, two.height / 2, maskRad);
+    cursor.outline = two.makeCircle(two.width / 2, two.height / 2, maskRad);
     cursor.target = new Two.Vector();
 
     cursor.outline.noFill();
@@ -162,17 +201,30 @@ function changeSize() {
     cursor.outline.linewidth = 40;
 
     container.mask = cursor;
-    //call once!
+
+    //why does this reset everytime. 
+    //why can't i reset this to MouseX,mouseY
     cursor.target.set(two.width / 2, two.height / 2);
+
+
+
 
 
     cursor.translation.copy(cursor.target);
 
     center = _.debounce(function() {
-        cursor.target.set(two.width / 2, two.height / 2);
+        cursor.target.set(e.clientX, e.clientY);
     }, 1000);
 
     var drag = function(e) {
+        // console.log(e.clientX, e.clientY + "mouse")
+        if (e.clientX < 100) {
+            panVar = 0.1;
+        } else if (e.clientX > 600) {
+            panVar = 1;
+        } else {
+            panVar = 0.5;
+        }
         cursor.target.set(e.clientX, e.clientY);
         // center();
     };
@@ -190,27 +242,6 @@ function changeSize() {
     $(window)
         .bind('mousemove', drag)
         .bind('touchmove', touchDrag);
-
-    two.bind('update', function() {
-
-        cursor.translation.x += (cursor.target.x - cursor.translation.x) * 0.125;
-        cursor.translation.y += (cursor.target.y - cursor.translation.y) * 0.125;
-        cursor.outline.translation.copy(cursor.translation);
-
-        for (var k in container.children) {
-            var child = container.children[k];
-            if (child.name === 'background') {
-                continue;
-            }
-
-            child.rotation += child.step;
-            // console.log(child.step)
-        }
-
-    });
-
-
-
 
 }
 
@@ -255,3 +286,7 @@ Two.prototype.makeNonagon = function(width, height, sides) {
     return shape;
 
 };
+
+function elastic(progress, x) {
+    return Math.pow(2, 10 * (progress - 1)) * Math.cos(20 * Math.PI * x / 3 * progress)
+}
