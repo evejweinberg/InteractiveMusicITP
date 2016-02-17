@@ -65,7 +65,7 @@ $(document).ready(function() {
         changeSize();
         cursorStuff();
         gridDist = gridDist - 14;
-        maskRad = maskRad - decay*1.3;
+        maskRad = maskRad - decay * 1.3;
         changeDelay = changeDelay + 1;
         rvgr = rvgr + .1;
         reverbGrow.wet.value = 1;
@@ -102,7 +102,13 @@ function changeSize() {
         fullscreen: true,
         autostart: true
     }).appendTo(document.body);
-    $('body').addClass("dropshadow");
+
+    // var my_scene = two.renderer.domElement;
+    // var my_group = document.getElementById(two.scene.id);
+    // var my_poly = document.getElementById(my_poly_html_id);
+    // my_poly.classList.add('dropshadow');
+
+    // $('body').addClass("dropshadow");
 
     background = two.makeRectangle(two.width / 2, two.height / 2, two.width, two.height);
     background.noStroke();
