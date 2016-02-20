@@ -31,10 +31,10 @@ function setup() {
 }
 
 function draw() {
-   
+
     currentImage = spriteLibrary[indexNum];
     currentImage.show();
-    currentImage.position(windowWidth/2-220, imagesScootY);
+    currentImage.position(windowWidth / 2 - 220, imagesScootY);
     if (currentImage !== prevImage && prevImage) {
         prevImage.hide();
     }
@@ -118,27 +118,26 @@ Tone.Buffer.on("load", function() {
         } else {
             synth.triggerAttackRelease(chain.value, 0.2, time + now);
         }
-
-
+        console.log(chain.next())
 
         chain.next();
-           if (chain.value == val1) {
+        if (chain.next() == val1) {
             indexNum = 1;
-        } else if (chain.value == val2) {
+        } else if (chain.next() == val2) {
             indexNum = 3;
-        }else if (chain.value == val3) {
+        }else if (chain.next() == val3) {
             indexNum = 5;
-        }else if (chain.value == val4) {
+        }else if (chain.next() == val4) {
             indexNum = 7;
-        }else if (chain.value == val5) {
+        }else if (chain.next() == val5) {
             indexNum = 11;
-        }else if (chain.value == val6) {
+        }else if (chain.next() == val6) {
             indexNum = 14;
-        }else if (chain.value == val7) {
+        }else if (chain.next() == val7) {
             indexNum = 16;
-        }else if (chain.value == val8) {
+        }else if (chain.next() == val8) {
             indexNum = 18;
-        }else if (chain.value == val9) {
+        }else if (chain.next() == val9) {
             indexNum = 20;
         }
         // indexNum++;
@@ -148,7 +147,7 @@ Tone.Buffer.on("load", function() {
         // sprites[i % sprites.length].display();
         // sprites[chain.value].display();
 
-    }, "4n", 1);//repeat every 8th note with 1 sec spacers
+    }, "4n", 1); //repeat every 8th note with 1 sec spacers
     //is this ramp working?
     Tone.Transport.bpm.rampTo(120, 25);
 
