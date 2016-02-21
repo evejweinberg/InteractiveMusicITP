@@ -11,3 +11,12 @@ for (var i = 0; i < 70; i++) {
     synth.triggerAttackRelease(controller)
     controller.next();
 }
+
+
+
+
+var date = new Date();
+      $(document.body).append(date.getHours());
+      var s = "Thisisalistof15"
+      console.log(s.length);
+      console.log(s.charAt(s.length - 1)) //15 charachters but the first place is called 0, so nothing is in the 15th place, bc the last place is the 14th place but there are 15 total places
