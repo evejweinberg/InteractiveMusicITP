@@ -73,7 +73,7 @@
         z-index: 1000;
     }
     </style>
-    <title>Eve</title>
+    <title>PractiveOOP</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="//cdn.muicss.com/mui-0.4.6/css/mui.min.css" rel="stylesheet" type="text/css" />
@@ -83,8 +83,9 @@
     <script src="libs/p5.dom.min.js"></script>
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script src="temp.js"></script>
+    <script src="motif.js"></script>
     <script src="https://use.typekit.net/fxd4hfn.js"></script>
+
     <script>
     try {
         Typekit.load({
@@ -95,16 +96,33 @@
 </head>
 
 <body>
-    <div id=BG></div>
-    <!-- <p>HI</p> -->
-    <div id="redDiv"></div>
-    <div id="trDiv"></div>
-    <div id="brDiv"></div>
-    <div id="blDiv"></div>
-    <div id="adiv">
-        <div>
-            <button id="bringback" class="mui-btn mui-btn--accent">BRING THEM BACK</button>
-
+    <script type="text/javascript">
+        
+        var motif = new Motif(["C4", "D2", "E4", "C2", "F#4", "A2", "F2", "A4"]);
+        var rest = 1.1;
+        var phraseEnd = motif.start();
+        //dominant
+        motif.dominant();
+        phraseEnd = motif.start(phraseEnd + rest);
+        motif.tonic();
+        phraseEnd = motif.start(phraseEnd + rest);
+        motif.doubleTime();
+        phraseEnd = motif.start(phraseEnd + rest);
+        phraseEnd = motif.start(phraseEnd);
+        motif.doubleTime();
+        phraseEnd = motif.start(phraseEnd + rest);
+        phraseEnd = motif.start(phraseEnd);
+        phraseEnd = motif.start(phraseEnd);
+        motif.halfTime();
+        motif.halfTime();
+        motif.reverse();
+        phraseEnd = motif.start(phraseEnd + rest);
+        motif.dominant();
+        phraseEnd = motif.start(phraseEnd + rest);
+        motif.reverse();
+        motif.tonic();
+        phraseEnd = motif.start(phraseEnd + rest);
+    </script>
 </body>
 
 </html>
