@@ -81,6 +81,20 @@ var SpringTime = function(index, petalNum) {
         }
     }).toMaster();
 
+    /*  The rain options
+     *  
+     *  @private
+     */
+    this._rainAmt = 1;
+    this._RainSamples = ["http://evejweinberg.github.io/samples/DJsamples/rain1.wav",
+        "http://evejweinberg.github.io/samples/DJsamples/rain2.mp3"
+    ];
+
+//     Tone.Buffer.on("load", function(){
+//    this._Rainplayer.start()
+  
+// });
+
 
 
 
@@ -93,9 +107,16 @@ var SpringTime = function(index, petalNum) {
  *  value is given, it will play immediately.
  *  @return {number} The time at the end of the section                       
  */
-SpringTime.prototype.start = function(when) {
-var array = [60, 62, 64, 65, 67, 69, 71, 72,74,76,77,79]; //cdefgab
-       
+
+SpringTime.prototype.startFlower2 = function(){
+    
+}
+
+
+SpringTime.prototype.startFlower1 = function(when) {
+
+    var array = [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79]; //cdefgab
+
 
 
     function miditoFreq(number) {
@@ -105,7 +126,7 @@ var array = [60, 62, 64, 65, 67, 69, 71, 72,74,76,77,79]; //cdefgab
     // var step = 100;
     // var step = Math.pow(2, ((this._freq-69)/12.0))*440;
     for (var i = 0; i < this._petalNum; i++) {
-         var number = array[this._index% this._petalNum]
+        var number = array[this._index % this._petalNum]
         this._freq = miditoFreq(number);
 
         this._index++;
@@ -126,6 +147,30 @@ SpringTime.prototype.slowness = function(speed) {
 }
 
 
-SpringTime.prototype.addRain(type){
-    // player sampler URL: http://cdn.mynoise.net/Data/RAIN/9b.mp3
+SpringTime.prototype.addRain = function(rainAmount,volume) {
+  
+    this._rainAmt = rainAmount;
+        this._Rainplayer = new Tone.Player({
+        "url": this._RainSamples[this._rainAmt],
+        loop: true,
+        "volume": -Infinity,
+        autostart: true
+    }).toMaster();
+    console.log( 'rain playing')
+      this._Rainplayer.volume.value = 0 || volume;
+
 }
+
+SpringTime.prototype.removeRain = function() {
+  
+
+    console.log( 'rain STOP playing')
+      this._Rainplayer.stop;
+
+}
+
+
+
+
+
+
