@@ -66,6 +66,7 @@ SpringTime.prototype.start = function(when) {
     this._harp.triggerAttackRelease(this._notes[0], "4n", when);
     this._harp.triggerAttackRelease(this._notes[1], "4n", when + this._speed);
     this._harp.triggerAttackRelease(this._notes[2], "4n", when + this._speed*2);
+    this._harp.triggerAttackRelease(this._notes[2], "4n", when + this._speed*2);
 
 };
 

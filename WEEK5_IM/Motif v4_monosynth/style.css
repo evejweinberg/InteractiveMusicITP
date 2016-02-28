@@ -1,0 +1,32 @@
+.bush1button {
+    /*display:block !important;
+background-image: url('assets/green.png')*/
+}
+
+.bushbuttons {
+    display: block !important;
+    background-image: url('assets/green.png');
+    width: 90px;
+    position: relative;
+}
+
+#bush4a-div {
+    position: absolute;
+    left: 500px;
+    top: 300px;
+}
+
+#bush6a-div {
+    position: absolute;
+    left: 200px;
+    top: 100px;
+}
+
+.dropshadow {
+    /*box-shadow: 1px 1px;*/
+    position: absolute;
+    -webkit-filter: drop-shadow(1px 1px .5px rgba(0, 0, 0, 0.5));
+    filter: url(#drop-shadow);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+}
