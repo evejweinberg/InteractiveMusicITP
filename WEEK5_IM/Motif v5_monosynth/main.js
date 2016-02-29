@@ -9,6 +9,7 @@
    var pitchShift = 0;
    var spring1, spring3, spring5, spring8;
    var pushUp = 50;
+   var rainVolume = -4;
 
 
    $(document).ready(function() {
@@ -23,13 +24,19 @@
        spring5 = new SpringTime(pitchShift, 5);
        spring8 = new SpringTime(pitchShift, 8);
        spring8.slowness(.15 * slowDown);
-       spring1.slowness(2 * slowDown);
+       spring1.slowness(1 * slowDown);
 
        spring3.slowness(.5 * slowDown);
        spring5.slowness(.3 * slowDown);
 
 
+
+
+
+
+
        $('#slow-button').click(function() {
+     
            $("#play-back-speed").text(slowDown);
            slowDown = slowDown + 1;
            spring8.slowness(.15 * slowDown);
@@ -40,6 +47,7 @@
        });
 
        $('#fast-button').click(function() {
+
 
            slowDown = slowDown - 1;
            $("#play-back-speed").text(slowDown);
@@ -53,7 +61,7 @@
        $('#pitch-high-button').click(function() {
            PushTerreriumUp();
 
-           
+           replaceShadowArt();
 
            pitchShift = pitchShift + 1;
            $("#pitch").text(pitchShift);
@@ -65,6 +73,7 @@
        });
 
        $('#pitch-low-button').click(function() {
+        replaceShadowArt();
         PushTerreriumDown();
            $("#pitch").text(pitchShift);
            pitchShift = pitchShift - 1;
@@ -75,22 +84,33 @@
            console.log(pitchShift)
        });
 
+       ///////////Rain//////////////////
+       //////////////////////////////
        $('#rainbutton').click(function() {
            if (rainOn) {
                console.log('rain was true, so....')
                rainOn = false
                console.log('switched rain to false')
                spring3.removeRain();
+               $("#animated-rain").hide();
                // spring4.addRain(0, -Infinity);
            } else if (rainOn == false) {
                console.log('rain was false. so....')
                rainOn = true;
                console.log('rain switched to true')
                $("#animated-rain").show();
-               var rain1 = spring3.addRain(1, -4);
+               var rain1 = spring3.addRain(1, rainVolume);
                // spring4.addRain(0, 0);
            }
 
+       });
+
+          $('#rain-vUp-button').click(function() {
+     
+           // $("#play-back-speed").text(slowDown);
+           rainVolume++;
+           spring3.addRain(1, rainVolume);
+           // console.log(slowDown)
        });
 
 
@@ -149,7 +169,7 @@
                }, 3000);
            }
        });
-
+       //looping 5a
        $('#plant-5a-button').click(function() {
            //toggle artwork
            var image = document.getElementById('plant-5a');
@@ -190,15 +210,16 @@
            plant8a_looping = !plant8a_looping;
            console.log('Is plant8 looping? ' + plant8a_looping)
                //     // console.log('clicked bush6 button')
-           if (plant8a_looping) {
+      if (plant8a_looping) {
 
-               interval = setInterval(function() {
-                   if (plant8a_looping == false) {
-                       console.log('looping finished')
-                       clearInterval(interval);
-                   }
-                   spring8.startFlower1(pitchShift, 0);
-               }, 3000);
+          interval = setInterval(function() {
+              if (plant8a_looping == false) {
+                  console.log('looping finished')
+                  clearInterval(interval);
+              }
+              spring8.startFlower1(pitchShift, 0);
+          }, 3000);
+
            }
        });
        //loop plant bass
@@ -223,7 +244,7 @@
                        console.log('looping finished')
                        clearInterval(interval);
                    }
-                   spring1.startFlower1(pitchShift, 0);
+                   spring1.startFlower2(pitchShift, 0);
                }, 3000);
            }
        });
@@ -300,6 +321,26 @@
                $('#bush6a').attr('src', 'assets/bush6_a_before.png');
            }
        });
+
+
+       function replaceShadowArt(){
+        if (pitchShift==0){
+           $("#terrarium").removeClass('hovering');
+          $("#shadow").attr("src", "assets/shadow1.png")
+        }
+        else if (pitchShift==1){
+            $("#terrarium").removeClass('hovering');
+          $("#shadow").attr("src", "assets/shadow2.png")
+        }
+        else if (pitchShift==2){
+          $("#terrarium").addClass('hovering');
+          $("#shadow").attr("src", "assets/shadow3.png")
+        }
+        else if (pitchShift==3){
+            $("#terrarium").addClass('hovering');
+          $("#shadow").attr("src", "assets/shadow4.png")
+        }
+       }
 
        function PushTerreriumUp() {
            

@@ -81,19 +81,40 @@ var SpringTime = function(index, petalNum) {
         }
     }).toMaster();
 
+        this._cactusSynth = new Tone.SimpleSynth({
+        "oscillator": {
+        "partials": [
+            1,
+            0,
+            2,
+            0,
+            3
+        ]
+    },
+    "envelope": {
+        "attack": 0.001,
+        "decay": 1.2,
+        "sustain": 0,
+        "release": 1.2
+    }
+    }).toMaster();
+
     /*  The rain options
      *  
      *  @private
      */
-    this._rainAmt = 1;
+    // this._rainAmt = 1;
     this._RainSamples = ["http://evejweinberg.github.io/samples/DJsamples/rain1.wav",
         "http://evejweinberg.github.io/samples/DJsamples/rain2.mp3"
     ];
+    // this._Rainplayer = new Tone.Player({
+    //     "url": this._RainSamples[this._rainAmt],
+    //     loop: true,
+    //     "volume": -Infinity,
+    //     autostart: true
+    // }).toMaster();
+    // console.log('rain add was called')
 
-    //     Tone.Buffer.on("load", function(){
-    //    this._Rainplayer.start()
-
-    // });
 
 
 
@@ -108,7 +129,31 @@ var SpringTime = function(index, petalNum) {
  *  @return {number} The time at the end of the section                       
  */
 
-SpringTime.prototype.startFlower2 = function() {
+SpringTime.prototype.startFlower2 = function(octave, when) {
+
+      var array = [36, 38, 40, 41, 43, 45, 47,48]; //cdefgab
+    this._octave = octave;
+
+    this._index = 0;
+
+    function miditoFreq(number) {
+        return Math.pow(2, ((number - 69) / 12.0)) * 440;
+    }
+    when = when || this._synth.now();
+    // var step = 100;
+    // var step = Math.pow(2, ((this._freq-69)/12.0))*440;
+    for (var i = 0; i < this._petalNum; i++) {
+        var number = this._octave * 12 + array[this._index % this._petalNum]
+        console.log(number)
+        this._freq = miditoFreq(number);
+        //next num in the index
+        this._index++;
+        // play that frequency
+        //.triggerAttackRelease (note, duration[, time][, velocity])
+        this._cactusSynth.triggerAttackRelease(this._freq, (.25 * this._speed), when + (i * (.6 * this._speed)))
+    }
+
+    return this._petalNum * (.25 * this._speed) + when;
 
 }
 
@@ -116,7 +161,7 @@ SpringTime.prototype.startFlower2 = function() {
 SpringTime.prototype.startFlower1 = function(octave, when) {
     //c d   e    f  g   a   b
     // var array = [60,62, 64, 65, 67, 69, 71]; //cdefgab
-       var array = [36, 38, 40, 41, 43, 45, 47]; //cdefgab
+    var array = [36, 38, 40, 41, 43, 45, 47,48]; //cdefgab
     this._octave = octave;
 
     this._index = 0;
