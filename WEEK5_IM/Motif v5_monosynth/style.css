@@ -1,0 +1,145 @@
+
+
+#terrarium{
+    position:absolute;
+    left:20%;
+    top:50%;
+    width:800px;
+    /*pointer-events: none;*/
+}
+
+#dirt{
+    top:45px;
+    left:20px;
+    /*position: relative;*/
+}
+
+#plant-bass{
+    left:-200px;
+    top:-161px;
+
+}
+
+#plant-3a{
+    top:-550px;
+    left: -166px;
+}
+#plant-5a{
+    top:-1052px;
+    left: -210px;
+}
+#plant-8a{
+    top:-1210px;
+    left: 35px;
+}
+
+#lines{
+    top:-600px;
+    pointer-events: none;
+}
+
+.allplants{
+    position: relative;
+}
+
+#plant-bass-button{
+background-color: #4bab8b;
+left:450px;
+top:-1541px;
+}
+#plant-3a-button{
+background-color: #84c79c;
+left:564px;
+top:-1376px;
+}
+#plant-5a-button{
+background-color: #95cc72;
+left:0px;
+top:-1410px;
+}
+#plant-8a-button{
+background-color: #77dbb9;
+left:-45px;
+top:-1620px;
+}
+
+
+
+#more-buttons-div{
+ position: absolute;
+left:5%;
+top:85%;
+width:400px;
+}
+
+#animated-rain{
+    top:-200px;
+    left:40px;
+    position: absolute;
+}
+
+#bgFullpage{
+    position: absolute;
+    width:100%;
+    height:100%;
+    background-image: url('assets/blue2.png');
+
+  background-repeat: repeat;
+
+}
+
+#rainbutton{
+    display: block !important;
+    background-image: url('assets/bluebuttonbg.png');
+    width: 138px;
+    position: relative;
+}
+#bgFullpage2{
+    position: absolute;
+    width:100%;
+    height:100%;
+    background-image: url('assets/blankSheet3.png');
+    opacity: .5;
+
+  background-repeat: repeat-y;
+
+}
+body{
+    
+}
+
+
+.bushbuttons {
+    display: block !important;
+    /*background-image: url('assets/green.png');*/
+    width: 90px;
+    position: relative;
+    box-shadow: 1px 1px;
+}
+
+#bush4a-div {
+    position: absolute;
+    left: 500px;
+    top: 300px;
+}
+
+/*#bush4a:hover{
+    left: 50px;
+    content: url('assets/bush4a_hover.png');
+    /*background-color: red;*/
+/*}*/
+
+#bush6a-div {
+    position: absolute;
+    left: 200px;
+    top: 100px;
+}
+
+.dropshadow {
+    /*box-shadow: 1px 1px;
+    position: absolute;
+    -webkit-filter: drop-shadow(1px 1px .5px rgba(0, 0, 0, 0.5));
+    filter: url(#drop-shadow);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+    filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+}

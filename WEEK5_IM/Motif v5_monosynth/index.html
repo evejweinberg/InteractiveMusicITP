@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+<head>
+    <style>
+
+    </style>
+    <title>Springtime</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="//cdn.muicss.com/mui-0.4.6/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.4.6/js/mui.min.js"></script>
+    <script src="http://cdn.tonejs.org/latest/Tone.js"></script>
+    <script src="libs/p5.min.js"></script>
+    <script src="libs/p5.dom.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <!-- <script src="https://use.typekit.net/fxd4hfn.js"></script> -->
+    <!--  <script>
+    try {
+        Typekit.load({
+            async: true
+        });
+    } catch (e) {}
+    </script> -->
+</head>
+
+<body>
+    <script src="motif.js"></script>
+    <script src="main.js"></script>
+    <div id="bgFullpage">
+        <div id="bgFullpage2"></div>
+    </div>
+    <div id="animated-rain">
+        <img id="rain1" src="assets/rain.png"></img>
+    </div>
+    <div id="terrarium">
+        <!-- <div id="dirt-div"> -->
+        <img id="dirt" class="allplants" src="assets/dirt.png"></img>
+        <!-- </div> -->
+        <!-- <div id="plant-bass-div"> -->
+        <img id="plant-bass" class="allplants" src="assets/plantBass_before.png"></img>
+        <img id="lines" class="allplants" src="assets/lines.png"></img>
+        <img id="plant-3a" class="allplants" src="assets/plant3a_before.png"></img>
+        <img id="plant-8a" class="allplants" src="assets/plant8a_before.png"></img>
+        <img id="plant-5a" class="allplants" src="assets/plant5a_before.png"></img>
+        <div class="bushbuttons" id="plant-bass-button" class="dropshadow">loop bush</div>
+            <div class="bushbuttons" id="plant-3a-button" class="dropshadow">loop bush</div>
+                <button class="bushbuttons" id="plant-5a-button" class="dropshadow">loop bush</button>
+                    <button class="bushbuttons" id="plant-8a-button" class="dropshadow">loop bush</button>
+                        <!-- </div> -->
+    </div>
+    <!-- <div id="bush4a-div">
+        <img id="bush4a" src="assets/bush4a_before.png"></img>
+        <buton class="bushbuttons" id="bush4abutton" class="dropshadow">loop bush 1</button>
+    </div>
+    <div id="bush6a-div">
+        <img id="bush6a" src="assets/bush6_a_before.png"></img>
+        <buton class="bushbuttons" id="bush6abutton" class="dropshadow">loop bush 2</button>
+    </div> -->
+    <div id="more-buttons-div">
+       <div id="slow-button" class="dropshadow">SLOW</div>
+        <div id="fast-button" class="dropshadow">FAST</div>
+          <div id="pitch-high-button" class="dropshadow">HIGHER OCTAVE</div>
+        <div id="pitch-low-button" class="dropshadow">LOWER OCTAVE</div>
+         <p id="pitch"></p>
+        <p id="play-back-speed"<p>
+        <div id="rainbutton" class="dropshadow">ADD/REMOVE RAIN</div>
+    </div>
+    <!--     <script type="text/javascript">
+
+ // var start2 = spring2.start(2);
+      // var rest = 1.1;
+      // var start = spring1.start(5,1);
+    
+        
+        // var motif = new Motif(["C4", "D2", "E4", "C2", "F#4", "A2", "F2", "A4"]);
+        // var rest = 1.1;
+        // var phraseEnd = motif.start();
+        // //dominant
+        // motif.dominant();
+        // phraseEnd = motif.start(phraseEnd + rest);
+        // motif.tonic();
+        // phraseEnd = motif.start(phraseEnd + rest);
+        // motif.doubleTime();
+        // phraseEnd = motif.start(phraseEnd + rest);
+        // phraseEnd = motif.start(phraseEnd);
+        // motif.doubleTime();
+        // phraseEnd = motif.start(phraseEnd + rest);
+        // phraseEnd = motif.start(phraseEnd);
+        // phraseEnd = motif.start(phraseEnd);
+        // motif.halfTime();
+        // motif.halfTime();
+        // motif.reverse();
+        // phraseEnd = motif.start(phraseEnd + rest);
+        // motif.dominant();
+        // phraseEnd = motif.start(phraseEnd + rest);
+        // motif.reverse();
+        // motif.tonic();
+        // phraseEnd = motif.start(phraseEnd + rest);
+    </script> -->
+</body>
+
+</html>
