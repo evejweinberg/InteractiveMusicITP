@@ -5,6 +5,7 @@
    plant3a_looping = false
    plantbass_looping = false
    rainOn = false;
+   var singingOn = false
    var slowDown = 1;
    var pitchShift = 0;
    var spring1, spring3, spring5, spring8;
@@ -105,11 +106,32 @@
 
        });
 
+
+          $('#lips').click(function() {
+           if (singingOn) {
+               // console.log('rain was true, so....')
+               singingOn = false
+               // console.log('switched rain to false')
+               spring3.removeSinger();
+               // $("#animated-rain").hide();
+               // spring4.addRain(0, -Infinity);
+           } else if (rainOn == false) {
+               // console.log('rain was false. so....')
+               singingOn = true;
+               // console.log('rain switched to true')
+               // $("#animated-rain").show();
+               spring3.addSinger();
+               // spring4.addRain(0, 0);
+           }
+
+       });
+
           $('#rain-vUp-button').click(function() {
      
            // $("#play-back-speed").text(slowDown);
            rainVolume++;
-           spring3.addRain(1, rainVolume);
+           console.log('rain Vol is: ' +rainVolume);
+           // spring3.addRain(1, rainVolume);
            // console.log(slowDown)
        });
 

@@ -143,6 +143,12 @@ body{
     top: 300px;
 }
 
+#lips{
+    position: absolute;
+    left:90%;
+    top:90%;
+}
+
 /*#bush4a:hover{
     left: 50px;
     content: url('assets/bush4a_hover.png');

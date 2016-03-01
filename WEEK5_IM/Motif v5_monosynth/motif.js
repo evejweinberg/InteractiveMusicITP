@@ -107,13 +107,13 @@ var SpringTime = function(index, petalNum) {
     this._RainSamples = ["http://evejweinberg.github.io/samples/DJsamples/rain1.wav",
         "http://evejweinberg.github.io/samples/DJsamples/rain2.mp3"
     ];
-    // this._Rainplayer = new Tone.Player({
-    //     "url": this._RainSamples[this._rainAmt],
-    //     loop: true,
-    //     "volume": -Infinity,
-    //     autostart: true
-    // }).toMaster();
-    // console.log('rain add was called')
+
+       /*  The singer's voice
+     *  
+     *  @private
+     */
+    this._singerSample = "http://evejweinberg.github.io/samples/DJsamples/singer.wav"
+  
 
 
 
@@ -191,7 +191,7 @@ SpringTime.prototype.startFlower1 = function(octave, when) {
 
 SpringTime.prototype.slowness = function(speed) {
     this._speed = speed;
-    this._release = 12;
+    this._release = 6;
 
 }
 
@@ -216,5 +216,30 @@ SpringTime.prototype.removeRain = function() {
     console.log('rain remove was called')
     this._Rainplayer.stop;
     this._Rainplayer.volume.value = -Infinity;
+
+}
+
+SpringTime.prototype.addSinger = function() {
+
+
+    console.log('added  Singer')
+    // this._rainAmt = rainAmount;
+    this._singer = new Tone.Player({
+        "url": this._singerSample,
+        loop: true,
+        "volume": -Infinity,
+        autostart: true
+    }).toMaster();
+    this._singer.volume.value = 0;
+  
+
+}
+
+SpringTime.prototype.removeSinger = function() {
+
+
+    // console.log('rain remove was called')
+    this._singer.stop;
+    this._singer.volume.value = -Infinity;
 
 }
