@@ -19,6 +19,7 @@ $(document).ready(function() {
     Tone.Transport.start();
 
     var loopPlant8a;
+    var loopPlant5a;
 
     $("#pitch").text(pitchShift);
     $("#animated-rain").hide();
@@ -141,35 +142,8 @@ $(document).ready(function() {
     });
 
 
-
-
-
-    $('#bush4abutton').click(function() {
-        //toggle artwork
-        var image = document.getElementById('bush4a');
-        if (image.src.match("before")) {
-            image.src = "assets/bush4a_after.png";
-        } else {
-            image.src = "assets/bush4a_before.png";
-        }
-        var interval;
-        Bush4_1looping = !Bush4_1looping;
-        console.log('Is bush4 loop?  ' + Bush4_1looping)
-            // console.log('clicked bush4a button')
-        if (Bush4_1looping) {
-            // $('#bush4a').attr('src', 'assets/bush1_after.png');
-            interval = setInterval(function() {
-                if (Bush4_1looping == false) {
-                    console.log('looping finished')
-                        // $('#bush4a').attr('src', 'assets/bush1_before.png');
-                    clearInterval(interval);
-                }
-                spring4.startFlower1(pitchShift, 0);
-            }, 3000);
-        }
-
-    });
-
+/////////LOOPING PLANTS///////////////////
+/////////////////////////////////////////////
 
     $('#plant-3a-button').click(function() {
         //toggle artwork
@@ -205,24 +179,24 @@ $(document).ready(function() {
         } else {
             image.src = "assets/plant5a_before.png";
         }
-
-        var interval;
-        // //change from false to true
         plant5a_looping = !plant5a_looping;
-        console.log('Is plant5 looping? ' + plant5a_looping)
-            //     // console.log('clicked bush6 button')
         if (plant5a_looping) {
+            //make a new transport Loop
+            loopPlant5a = new Tone.Loop(function(time) {
+                //triggered every eighth note. 
+                console.log(time);
+                spring5.startTriangleSynth(pitchShift, time);
+            }, 3);
 
-            interval = setInterval(function() {
-                if (plant5a_looping == false) {
-                    console.log('looping finished')
-                    clearInterval(interval);
-                }
-                spring5.startFlower1(pitchShift, 0);
-            }, 3000);
+            loopPlant5a.start(Tone.Transport.now());
+        } else {
+            loopPlant5a.stop(Tone.Transport.now());
+
         }
-    });
 
+
+    });
+//looping
     $('#plant-8a-button').click(function() {
         //toggle artwork
         var image = document.getElementById('plant-8a');
@@ -232,13 +206,12 @@ $(document).ready(function() {
             image.src = "assets/plant8a_before.png";
         }
 
-        var interval;
+        // var interval;
         // //change from false to true
         plant8a_looping = !plant8a_looping;
         console.log('Is plant8 looping? ' + plant8a_looping)
             //     // console.log('clicked bush6 button')
         if (plant8a_looping) {
-
 
             loopPlant8a = new Tone.Loop(function(time) {
                 //triggered every eighth note. 
@@ -247,23 +220,22 @@ $(document).ready(function() {
             }, 3);
 
             loopPlant8a.start(Tone.Transport.now());
-
-
-
-            // interval = setInterval(function() {
-            //     if (plant8a_looping == false) {
-            //         console.log('looping finished')
-            //         clearInterval(interval);
-            //     }
-            //     spring8.startFlower1(pitchShift, 0);
-            // }, 3000);
-        } else{
-          loopPlant8a.stop(Tone.Transport.now());
+        } else {
+            loopPlant8a.stop(Tone.Transport.now());
 
         }
 
-              // if (plant8a_looping == false) {
-              // }
+        // interval = setInterval(function() {
+        //     if (plant8a_looping == false) {
+        //         console.log('looping finished')
+        //         clearInterval(interval);
+        //     }
+        //     spring8.startFlower1(pitchShift, 0);
+        // }, 3000);
+
+
+        // if (plant8a_looping == false) {
+        // }
     });
 
 
@@ -293,6 +265,10 @@ $(document).ready(function() {
             }, 3000);
         }
     });
+
+
+////////////////////////////////////////////////////////////
+///play once on click////////////////////////////////////
 
     //play bush-bass once
     $('#plant-bass').click(function() {
@@ -333,7 +309,8 @@ $(document).ready(function() {
 
     //play bush-bass once
     $('#plant-5a').click(function() {
-        spring5length = spring5.startFlower1(pitchShift, 0);
+       spring5length = spring5.startTriangleSynth(pitchShift, 0);
+        // spring5length = spring5.startFlower1(pitchShift, 0);
         // console.log('play bush4_1 once')
         $('#plant-5a').attr('src', 'assets/plant5a_after.png');
         setInterval(displayNextImage, 2000); //would love to change this to the actual length

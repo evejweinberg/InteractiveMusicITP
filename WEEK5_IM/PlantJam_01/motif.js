@@ -12,8 +12,6 @@
 
 
 //TO DO: implement these methods:
-//create 1 red flower
-//add rain (this adds a constant pitter patter)
 //this has 4 notes in it that are randomly pulled
 //{amount of rain - makes the timing tighter
 //}
@@ -59,6 +57,35 @@ var SpringTime = function(index, petalNum) {
         "portamento": 0.00,
         "oscillator": {
             "type": "sawtooth"
+        },
+        "envelope": {
+            "attack": 0.005,
+            "decay": 0.2,
+            "sustain": 1.4,
+            "release": 12.4,
+        },
+        "filterEnvelope": {
+            "attack": 0.015,
+            "decay": 0.1,
+            "sustain": 0.05,
+            "release": 20.8,
+            "baseFrequency": 300,
+            "octaves": 4
+        },
+        "pitch": {
+
+            "pitch": 2,
+            "windowSize": 0.04,
+            "delayTime": 0.03,
+            "feedback": 2.5
+
+        }
+    }).toMaster();
+
+    this._triangle_synth = new Tone.MonoSynth({
+        "portamento": 0.00,
+        "oscillator": {
+            "type": "triangle"
         },
         "envelope": {
             "attack": 0.005,
@@ -184,6 +211,37 @@ SpringTime.prototype.startFlower1 = function(octave, when) {
         // play that frequency
         //.triggerAttackRelease (note, duration[, time][, velocity])
         this._synth.triggerAttackRelease(this._freq, (.25 * this._speed), when + (i * (.6 * this._speed)))
+    }
+
+    return this._petalNum * (.25 * this._speed) + when;
+
+
+
+};
+
+SpringTime.prototype.startTriangleSynth = function(octave, when) {
+    //c d   e    f  g   a   b
+    // var array = [60,62, 64, 65, 67, 69, 71]; //cdefgab
+    var array = [36, 38, 40, 41, 43, 45, 47,48]; //cdefgab
+    this._octave = octave;
+
+    this._index = 0;
+
+    function miditoFreq(number) {
+        return Math.pow(2, ((number - 69) / 12.0)) * 440;
+    }
+    when = when || this._synth.now();
+    // var step = 100;
+    // var step = Math.pow(2, ((this._freq-69)/12.0))*440;
+    for (var i = 0; i < this._petalNum; i++) {
+        var number = this._octave * 12 + array[this._index % this._petalNum]
+        console.log(number)
+        this._freq = miditoFreq(number);
+        //next num in the index
+        this._index++;
+        // play that frequency
+        //.triggerAttackRelease (note, duration[, time][, velocity])
+        this._triangle_synth.triggerAttackRelease(this._freq, (.25 * this._speed), when + (i * (.6 * this._speed)))
     }
 
     return this._petalNum * (.25 * this._speed) + when;
