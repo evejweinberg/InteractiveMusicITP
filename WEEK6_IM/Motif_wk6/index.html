@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Motif</title>
+    <script type="text/javascript" src="./Motif.js"></script>
+    <script type="text/javascript" src="https://tonejs.github.io/CDN/r6/Tone.min.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+    ///////////////CHAINING////////////////////////////////////
+    //    ________  _____    _____   __
+    //   / ____/ / / /   |  /  _/ | / /
+    //  / /   / /_/ / /| |  / //  |/ / 
+    // / /___/ __  / ___ |_/ // /|  /  
+    // \____/_/ /_/_/  |_/___/_/ |_/ 
+    //////////////////////////////////////////////////////  
+
+    var fd = new Tone.FeedbackDelay({}).toMaster();
+    var ps = new Tone.PitchShift({}).connect(fd);
+    var sythn = new Tone.MonoSynth({}).connect(ps);
+
+
+    //or do it this way and remove the masters and connections up top:
+    //sythn.chain(ps, fd)
+    //fd.toMaster();
+    //
+    //
+    //or this way:
+    // snyth.chain(ps,fd,Tone.Master);
+    // 
+
+
+
+
+    //////////////////////////////////////
+    //   ____________  _________
+    //  /_  __/  _/  |/  / ____/
+    //   / /  / // /|_/ / __/   
+    //  / / _/ // /  / / /___   
+    // /_/ /___/_/  /_/_____/   
+    /////////////////////////////////////////
+    ///don't use JS clock, use ////////////////////////////////////
+    /////////sample accurate time
+    ////////////////////////////////////////////////////////
+    ///
+    var osc = new Tone.Oscillator().toMaster();
+    $("button").on("click", function() {
+
+        console.log(osc.now());
+        //this is based on when you open the browser so it might not even play if it's too early
+        osc.start(0);
+    })
+
+
+    var loop = new Tone.Loop(function(time) {
+        console.log(time);
+    }, 0.5).start(0);
+    //half second apart
+    //now the 1 means
+    //'just in time' scheduling
+    //recieve a callback, then schedule things right after the callback is triggered
+    Tone.Transport.start(1);
+
+
+
+    //////////////////////////////
+    //interactive example from fiddle - ask Yotam to share?
+
+    // var synth = new Tone.SimpleSynth({}).toMaster();
+    // var notes = new Tone.Pattern(function(time,notes){
+    // synth.triggerAttackRelease(note, "8n", time);
+    // }, ["C4","C4","C4"]
+    // );
+    // 
+    // notes.start(0);
+    // Tone.Transport.start(0);
+    // 
+    // 
+
+    // $(window).on("mousemove",function(e){
+    //     var w = windowwidth;
+    //     var h = windowheight
+    // })
+
+
+
+
+
+
+
+
+
+    /////////////SCHEDULE////////////////////////////////////////////////////
+    //    _____ ________  ____________  __  ____    ______
+    //   / ___// ____/ / / / ____/ __ \/ / / / /   / ____/
+    //   \__ \/ /   / /_/ / __/ / / / / / / / /   / __/   
+    //  ___/ / /___/ __  / /___/ /_/ / /_/ / /___/ /___   
+    // /____/\____/_/ /_/_____/_____/\____/_____/_____/   
+
+
+
+    var synth = new Tone.SimpleSynth().toMaster();
+
+    //schedule is expecting 1 argument that is always when to trigger the sound
+    function doSomething(when) {
+        //when will get replaced with
+        synth.triggerAttackRelease('C4', '8n', when);
+        console.log('yes')
+    }
+    //if a function is going into the transport it can only have this one argument
+    function doSomethingAlso(when) {
+        //when will get replaced with
+        synth.triggerAttackRelease('C4', '8n', when + 1);
+        console.log('yes')
+    }
+    //instead use transport and a callback
+    //functions are variables!
+    Tone.Transport.schedule(doSomething, 1);
+
+    Tone.Transport.schedule(doSomethingAlso, 2, 4);
+    // when transport starts and 1 second goes by..doSomething
+    // Tone.Transport.position() //in terms of beats
+    // Tone.Transport.progress
+    // you can do this at any point in your project
+    Tone.Transport.start();
+
+
+
+
+    Tone.Transport.loop = true;
+    Tone.Transport.loopStart = 2;
+    Tone.Transport.loopEnd = 3;
+
+
+
+
+    ////////////////////////
+    //you can do this!
+    // Tone.Transport.start(1).stop(4).start(6);
+    // ///////////////////////////////////////
+
+
+
+
+    ////////////////EVENTS///////////////////////////////////////////
+    // ///    _______    _________   _____________
+    //    / ____/ |  / / ____/ | / /_  __/ ___/
+    //   / __/  | | / / __/ /  |/ / / /  \__ \ 
+    //  / /___  | |/ / /___/ /|  / / /  ___/ / 
+    // /_____/  |___/_____/_/ |_/ /_/  /____/  
+    ////////////////////////////////////////////////
+
+
+    //now lets abstract the scheduling, by using Events
+
+
+    var synth = new Tone.SimpleSynth().toMaster();
+
+    function doSomething(when) {
+        //when will get replaced with
+        synth.triggerAttackRelease('C4', '8n', when);
+        console.log('yes')
+    }
+
+
+
+    var loop = new Tone.Loop(doSomething, "8n"); // "8n" is the how often parameter, "8n" is relative to the bpm
+
+    //or
+    var loop = new Tone.Loop(doSomething, 0.5).start(4);
+
+    Transport.start(12); //start it at 12 seconds in
+
+
+
+
+    ////////////////LOOP///////////////////////////////////////////
+    //     __    ____  ____  ____     ___ 
+    //    / /   / __ \/ __ \/ __ \   /   |
+    //   / /   / / / / / / / /_/ /  / /| |
+    //  / /___/ /_/ / /_/ / ____/  / ___ |
+    // /_____/\____/\____/_/      /_/  |_|
+    ///////////////////////////////////////////////////////                                  
+    ///  var synth = new Tone.SimpleSynth().toMaster();
+
+
+    $('button-halftime').on("click", function() {
+        loop.playbackRate *= 2;
+    });
+
+    $('button-doubletime').on("click", function() {
+        loop.playbackRate /= 2;
+    });
+
+    function doSomething(when) {
+        //when will get replaced with
+        synth.triggerAttackRelease('C4', '8n', when);
+        console.log('yes')
+    }
+
+
+    /////or this works. based on my weird question in class
+    // function scheduleNExt(time){
+    //     sythn.triggerAttackRelease("C4", "8n",time)
+    //     Tone.Transport.schedule(scheduleNExt,time+Math.random*().1+0.5);
+    // }
+
+
+
+    var loop = new Tone.Loop(doSomething, "8n"); // "8n" is the how often parameter, "8n" is relative to the bpm
+
+    //or
+    var loop = new Tone.Loop(doSomething, 0.5).start(4);
+    // loop.playbackRate = .5
+
+
+    Transport.start(12); //start it at 12 seconds in
+
+
+
+
+
+
+
+    ////////////////LOOP/////////////////////////////////////////
+    // 88      dP"Yb   dP"Yb  88""Yb 
+    // 88     dP   Yb dP   Yb 88__dP 
+    // 88  .o Yb   dP Yb   dP 88"""  
+    // 88ood8  YbodP   YbodP  88     
+    // ///////////////////////////////////////////////////////////
+
+
+
+    //check the example called playbackrate on examples
+    var synth1 = new Tone.SimpleSynth().toMaster();
+    var synth2 = new Tone.SimpleSynth().toMaster();
+
+    var loop1 = new Tone.Loop(function(when) {
+        synth1.triggerAttackRelease("C4", "8n", when)
+
+    }, "4n").start(0);
+
+    var loop2 = new Tone.Loop(function(when) {
+        synth2.triggerAttackRelease("C4", , )
+
+    }, 0.25).start(0);
+
+
+    Tone.Transport.start();
+    Tone.Transport.bpm.value = 120; //or do this on click
+
+
+    $('button-doubletime').on("click", function() {
+        Tone.Transport.bpm.value++;
+    });
+
+    $('button-another').on("click", function() {
+        Tone.Transport.bpm.value++;
+    });
+
+
+    //instantaneous jump to a new value
+    var osc = new Tone.Oscillator().toMaster().start();
+    osc.frequency.setValueAtTime("C4", 0);
+    osc.frequency.setValueAtTime("C2", 1);
+
+    //default start is at 120 bpm
+    //linear ramp, expoenetial ramp, or rampTo
+    var osc = new Tone.Oscillator().toMaster().start();
+    osc.frequency.setValueAtTime("C4", 0);
+    osc.frequency.linearRampToValue("C2", 1);
+    osc.frequency.exponentialRampToValue("C1", 2);
+    osc.frequency.rampTo("C1", 12); //12 is the duration of the ramp
+
+
+
+    //////////////////PATTERN//////////////////////////
+    // ///                                                                       
+    //     //   ) ) // | |  /__  ___/ /__  ___/ //   / /  //   ) )  /|    / / 
+    //    //___/ / //__| |    / /       / /    //____    //___/ /  //|   / /  
+    //   / ____ / / ___  |   / /       / /    / ____    / ___ (   // |  / /   
+    //  //       //    | |  / /       / /    //        //   | |  //  | / /    
+    // //       //     | | / /       / /    //____/ / //    | | //   |/ /     
+    //////////////////PATTERN//////////////////////////
+
+
+    var synth1 = new Tone.SimpleSynth().toMaster();
+
+    var synth2 = new Tone.SimpleSynth().toMaster();
+
+
+    var loop = new Tone.Pattern(function(when, what) {
+        //WHAT IS A chosen note from this array of notes
+        synth.triggerAttackRelease(what, "8n", when)
+    }, ["C4", "G4", "C2", "G2"], "down").start(0);
+
+
+    var loop2 = new Tone.Loop(function(when) {
+        synth2.triggerAttackRelease("C4", "8n", when)
+    }).start(2).stop(8);
+
+    loop.interval = 1;
+
+    TOne.Transport.start();
+
+
+    ////////////////////////////////////////////
+
+
+
+    Tone.Transport.loopEnd = "8m";
+    Tone.Transport.loop = true;
+
+
+    /////////////////////////////////////////////////////////////////////////////
+    // .-. .-. .-. . . .-. . . .-. .-. 
+    // `-. |-  |.| | | |-  |\| |   |-  
+    // `-' `-' `-`.`-' `-' ' ` `-' `-' 
+    //////same as pattern but it does subdivide, plus other cool stuff////////////////////////
+    // ....... ....... ....... ....... ....... ....... ....... .......                             
+
+    var synth = new Tone.SimpleSynth().toMaster();
+    var synth2 = new Tone.SimpleSynth().toMaster();
+
+
+    var seq = new Tone.Sequence(function(when, note) {
+        //subdivision defaults to "4n"
+        //"8n" is the duration of each note (?)
+        synth.triggerAttackRelease(note, "8n", when)
+    }, ["C4", ["C4", "G4"], "G4", null, ["C4", "G4", "C2", "G2"], "G2"], "down").start(0);
+
+
+    // a straight array of notes would all be on quarter notes
+    // quarter, 
+
+
+    Tone.Transport.start();
+    //tell it what to do, just at index 0
+    loop.at(0, "C8");
+    //or get deeper into the array within the array
+    loop.at(0).at(1).at(0, "C8");
+
+
+
+    ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////
+    //--------------------------------------------------                                         
+    //     //   ) ) // | |     //   ) ) /__  ___/ 
+    //    //___/ / //__| |    //___/ /    / /     
+    //   / ____ / / ___  |   / ___ (     / /      
+    //  //       //    | |  //   | |    / /       
+    // //       //     | | //    | |   / /        
+    //////////////////////////////////////////////////////////
+    //////////// EXAMPLE on examples/jump ///////////////////////
+
+    var synth = new Tone.SimpleSynth().toMaster();
+
+
+
+    var part = new Tone.Part(function(when, note) {
+                //give it an array of things
+                synth.triggerAttackRelease(note, "8n", when)
+                    // synth.triggerAttackRelease(note.noteName,note.duration,time,note.velocity)
+
+            }, [0, 1, 1.2, 1.5].start(0);
+
+            //you could loop it, but you have to set the end
+            part.loop = true; part.loopEnd = 2;
+
+
+
+            var part2 = new Tone.Part(function(when, note) {
+                //give it an array of things
+                synth.triggerAttackRelease(note, "8n", when)
+
+            }, [{
+                time: 0,
+                value: "C4"
+            }], 0, 1, 1.2, 1.5].start(0);
+
+
+            var part3 = new Tone.Part(function(when, note) {
+                //give it an array of things
+                synth.triggerAttackRelease(note.noteName, note.duration, time, note.velocity)
+
+            }, [{
+                time: 0,
+                value: "C4"
+            }], 0, 1, 1.2, 1.5].start(0);
+
+
+            Tone.Transport.start();
+
+
+            ////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////
+            //   ____  ____  ____  __   _______  ___   __________  __
+            //    / __ \/ __ \/ /\ \/ /  / ___/\ \/ / | / /_  __/ / / /
+            //   / /_/ / / / / /  \  /   \__ \  \  /  |/ / / / / /_/ / 
+            //  / ____/ /_/ / /___/ /   ___/ /  / / /|  / / / / __  /  
+            // /_/    \____/_____/_/   /____/  /_/_/ |_/ /_/ /_/ /_/   
+
+
+
+            var synth = new Tone.PolySynth(3, Tone.FMSynth).toMaster(); synth.triggerAttackRelease(["C4", "D3", "C2", "G3"], "1m", 1);
+
+
+
+            ///////////////////////////////////////////////////////////////////
+    </script>
+</body>
+
+</html>

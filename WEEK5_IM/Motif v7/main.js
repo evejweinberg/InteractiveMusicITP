@@ -22,14 +22,14 @@ $(document).ready(function() {
     Tone.Transport.start();
 
     //create each plant
-    spring1 = new SpringTime(pitchShift, 1);
-    spring3 = new SpringTime(pitchShift, 3);
-    spring6 = new SpringTime(pitchShift, 6);
-    spring5 = new SpringTime(pitchShift, 5);
-    spring8 = new SpringTime(pitchShift, 8);
+    spring1 = new SpringTime(pitchShift, 1, "sine");
+    spring3 = new SpringTime(pitchShift, 3, "sawtooth");
+    spring6 = new SpringTime(pitchShift, 6, "triangle");
+    spring5 = new SpringTime(pitchShift, 5, "sawtooth8");
+    spring8 = new SpringTime(pitchShift, 8, "sawtooth");
     //set speed for each plant
     spring8.slowness(.15 * slowDown);
-    spring1.slowness(1 * slowDown);
+    spring1.slowness(2 * slowDown);
     spring3.slowness(.5 * slowDown);
     spring5.slowness(.3 * slowDown);
 
@@ -336,6 +336,12 @@ $(document).ready(function() {
         pushUp = pushUp + 2;
         console.log('pushing Up to' + pushUp)
         $('#terrarium').css({ top: pushUp + '%' });
+    }
+
+    function checkForFalse(){
+        if (plantbass_looping == false){
+            console.log('dont loop plant Bass anymore')
+        }
     }
 
 

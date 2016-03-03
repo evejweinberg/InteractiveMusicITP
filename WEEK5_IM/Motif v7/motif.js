@@ -21,7 +21,7 @@
 
 
 
-var SpringTime = function(index, petalNum) {
+var SpringTime = function(index, petalNum, waveform) {
     /**
      *  The amts of notes played per shrub (should be equal to the image). 
      *  @private
@@ -57,7 +57,7 @@ var SpringTime = function(index, petalNum) {
     this._synth = new Tone.MonoSynth({
         "portamento": 0.00,
         "oscillator": {
-            "type": "sawtooth"
+            "type": waveform
         },
         "envelope": {
             "attack": 0.005,

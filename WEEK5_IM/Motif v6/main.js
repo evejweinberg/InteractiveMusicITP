@@ -18,15 +18,19 @@ $(document).ready(function() {
     var rainVolume = -4;
     var loopPlant8a;
 
+    // var pattern = new Tone.Pattern(function(){
+
+    // })
+
     //there is one Transport for the whole project
     Tone.Transport.start();
 
     //create each plant
-    spring1 = new SpringTime(pitchShift, 1);
-    spring3 = new SpringTime(pitchShift, 3);
-    spring6 = new SpringTime(pitchShift, 6);
-    spring5 = new SpringTime(pitchShift, 5);
-    spring8 = new SpringTime(pitchShift, 8);
+    spring1 = new SpringTime(pitchShift, 1, "sawtooth");
+    spring3 = new SpringTime(pitchShift, 3, "sawtooth");
+    spring6 = new SpringTime(pitchShift, 6, "sawtooth");
+    spring5 = new SpringTime(pitchShift, 5, "sawtooth");
+    spring8 = new SpringTime(pitchShift, 8, "sawtooth");
     //set speed for each plant
     spring8.slowness(.15 * slowDown);
     spring1.slowness(1 * slowDown);
@@ -168,27 +172,23 @@ $(document).ready(function() {
     //looping 5a
     $('#plant-5a-button').click(function() {
         //toggle artwork
-        var image = document.getElementById('plant-5a');
-        if (image.src.match("before")) {
-            image.src = "assets/plant5a_after.png";
-        } else {
-            image.src = "assets/plant5a_before.png";
-        }
+        // var image = document.getElementById('plant-5a');
+        // if (image.src.match("before")) {
+        //     image.src = "assets/plant5a_after.png";
+        // } else {
+        //     image.src = "assets/plant5a_before.png";
+        // }
 
-        var interval;
+       
         // //change from false to true
         plant5a_looping = !plant5a_looping;
         console.log('Is plant5 looping? ' + plant5a_looping)
             //     // console.log('clicked bush6 button')
         if (plant5a_looping) {
 
-            interval = setInterval(function() {
-                if (plant5a_looping == false) {
-                    console.log('looping finished')
-                    clearInterval(interval);
-                }
-                spring5.startFlower1(pitchShift, 0);
-            }, 3000);
+$('#plant-5a').attr('src', 'assets/plant5a_after.png');
+checkfor5false()
+
         }
     });
 
@@ -250,7 +250,7 @@ $(document).ready(function() {
     });
 
 
-     /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     //////////////PLAY PLANT SOUNDS////////////////
     ////////////////////////////////ONCE///////////////
 
@@ -337,6 +337,19 @@ $(document).ready(function() {
         console.log('pushing Up to' + pushUp)
         $('#terrarium').css({ top: pushUp + '%' });
     }
+
+
+    function checkfor5false()
+ {var interval;
+ 
+             interval = setInterval(function() {
+                 if (plant5a_looping == false) {
+                     $('#plant-5a').attr('src', 'assets/plant5a_before.png');
+                     console.log('looping finished')
+                     clearInterval(interval);
+                 }
+                 spring5.startFlower1(pitchShift, 0);
+             }, 3000);}
 
 
 
