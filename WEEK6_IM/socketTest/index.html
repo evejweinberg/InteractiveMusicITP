@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <style>
+
+    </style>
+    <title>PractiveOOP</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="http://cdn.tonejs.org/latest/Tone.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <!-- <script src="socketTest.js"></script> -->
+    <script>
+    </script>
+</head>
+
+<body>
+<!-- //is this actually finding this source snything? -->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script>
+
+    //STEP2: open a socket, and connect to a server at this location
+    var socket = io.connect('http://localhost:3000');
+
+    //STEP 3: 'on recieving' run annonymous function 
+    socket.on('news', function(data) {
+        console.log(data);
+        socket.emit('my other event', {
+            my: data
+        });
+    });
+
+    // socket.on("news", function(msg){
+    //  console.log(msg.hello)
+    //  console.log(msg.age) // 24
+
+    //world
+    // })
+    </script>
+</body>
+
+</html>

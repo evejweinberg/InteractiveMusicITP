@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WeFoundLove</title>
+    <script type="text/javascript" src="https://tonejs.github.io/CDN/r6/Tone.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+    /////////////////////////////////////////////////////////////////////////////
+    // .-. .-. .-. . . .-. . . .-. .-. 
+    // `-. |-  |.| | | |-  |\| |   |-  
+    // `-' `-' `-`.`-' `-' ' ` `-' `-' 
+    //////same as pattern but it does subdivide, plus other cool stuff////////////////////////
+    // ....... ....... ....... ....... ....... ....... ....... .......                             
+
+Tone.Transport.start(1);
+
+ var freeverb = new Tone.Freeverb({
+    "roomSize": 0.7,
+    "dampening": 4300
+}).toMaster();
+
+ var autowah = new Tone.AutoWah({
+    "baseFrequency": 140,
+    "octaves": 4,
+    "sensitivity": 0,
+    "Q": 7,
+    "gain": 5,
+    "rolloff": -48,
+    "follower": {
+        "attack": 0.5,
+        "release": 0.1
+    }
+}).toMaster();
+
+ vibrato = new Tone.Vibrato({
+    "frequency": 0.3,
+    "depth": .4,
+    "type": "sawtooth"
+}).toMaster();
+
+
+    var synth = new Tone.SimpleSynth(
+     {
+    "oscillator": {
+        "partials": [
+            1,
+            0,
+            2,
+            0,
+            3
+        ]
+    },
+    "envelope": {
+        "attack": 0.011,
+        "decay": 4.2,
+        "sustain": 0,
+        "release": 3.2
+    }
+}
+        ).connect(freeverb);
+
+        var synth2 = new Tone.SimpleSynth(
+     {
+    "oscillator": {
+        "partials": [
+            1,
+            0,
+            2,
+            0,
+            3
+        ]
+    },
+    "envelope": {
+        "attack": 0.001,
+        "decay": 1.2,
+        "sustain": 0,
+        "release": 1.2
+    }
+}
+        ).connect(autowah);
+
+
+        var polysynth = new Tone.PolySynth(6, Tone.MonoSynth).connect(freeverb);
+        polysynth.set(
+            {
+    "oscillator": {
+        "type": "sawtooth8"
+    },
+    "envelope": {
+        "attack": 0.001,
+        "decay": 1.1,
+        "sustain": 0.1,
+        "release": 1.2
+    }
+})
+
+
+
+    
+
+ 
+
+
+    var seq = new Tone.Sequence(function(when, note) {
+        console.log(when)
+            //subdivision defaults to "4n"
+            //"8n" is the duration of each note (?)
+        synth.triggerAttackRelease(note)
+    }, [["A2", "B3"], "B3", "G2", "F1",["G2","G2"],["G2","A2"],null,null,["A2","B3"],"B3","G2","C3","B3","G2",null,["A2","B3"],"B3","G2", "F1","G2",["G2","G2"],["A2"], null,null,["A2","B3"],"B3","G2","C3",["C3","B3"],"B3","G2","G2","G2",["A2","B3"],"B3","B3",null,["D4","D4"],null,"C3","C3","B3","A2","C3","B3","A2","G2","G2","A2","B3","B3",null,"D4","D4"], "4n").start(9);
+
+    // var seq2 = new Tone.Sequence(function(when, note) {
+    //     console.log(when)
+    //         //subdivision defaults to "4n"
+    //         //"8n" is the duration of each note (?)
+    //     synth.triggerAttackRelease(note)
+    // }, ["Ab4", "F4", ["G2", "F1"],["G2","G2"],["G2","A2"],null,null,["A2","B3"],"B3","G2","C3","B3","G2",null,["A2","B3"],"B3","G2", "F1","G2",["G2","G2"],["A2"], null,null,["A2","B3"],"B3","G2","C3",["C3","B3"],"B3","G2","G2","G2",["A2","B3"],"B3","B3",null,["D4","D4"],null,"C3","C3","B3","A2","C3","B3","A2","G2","G2","A2","B3","B3",null,"D4","D4"], "8n").start(0);
+    // 
+    var seq2 = new Tone.Sequence(function(when, note) {
+        console.log(when)
+            //subdivision defaults to "4n"
+            //"8n" is the duration of each note (?)
+    polysynth.triggerAttackRelease(note)
+        // synth2.triggerAttackRelease(note)
+    }, ["B3", "B3","B3", "B3","B3","D4","D4","D4","B3", "B3","B3", "B3","B3","D4","D4","D4",null,"B3", "B3","B3", "B3","B3","D4","D4","D4","B3", "B3","B3", "B3","B3","D4","D4","D4",null,"B2","B2","B2","B2","B2","D3","D3","D3","B2","B2","B2","B2","B2","D3","D3","D3","B2","B2","B2","B2","B2","D3","D3","D3","B2","B2","B2","B2","B2","D3","D3","D3","B2","B2","B2","B2","B2","D3","D3","D3","B2","B2","B2","B2","B2","D3","D3","D3" ], "8n").start(0);
+
+    //b is one pitch down
+    //# one pitch up
+
+
+    // a straight array of notes would all be on quarter notes
+    // quarter, 
+
+
+    
+    //seq it what to do, just at index 0
+    // seq2.at(0, "C4","2n");
+    //or get deeper into the array within the array
+    // loop.at(0).at(1).at(0, "C8");
+
+
+
+    //////////////////PATTERN//////////////////////////
+    // ///                                                                       
+    //     //   ) ) // | |  /__  ___/ /__  ___/ //   / /  //   ) )  /|    / / 
+    //    //___/ / //__| |    / /       / /    //____    //___/ /  //|   / /  
+    //   / ____ / / ___  |   / /       / /    / ____    / ___ (   // |  / /   
+    //  //       //    | |  / /       / /    //        //   | |  //  | / /    
+    // //       //     | | / /       / /    //____/ / //    | | //   |/ /     
+    //////////////////PATTERN//////////////////////////
+
+
+    // var synth1 = new Tone.SimpleSynth().toMaster();
+
+    // var synth2 = new Tone.SimpleSynth().toMaster();
+
+
+    // var loop = new Tone.Pattern(function(when, what) {
+    //     //WHAT IS A chosen note from this array of notes
+    //     synth.triggerAttackRelease(what, "8n", when)
+    // }, ["C4", "G4", "C2", "G2"], "down").start(0);
+
+
+    // var loop2 = new Tone.Loop(function(when) {
+    //     synth2.triggerAttackRelease("C4", "8n", when)
+    // }).start(2).stop(8);
+
+    // loop.interval = 1;
+
+    // TOne.Transport.start();
+
+
+    // ////////////////////////////////////////////
+
+// Tone.Transport.bpm.value = 800
+
+    // Tone.Transport.loopEnd = "8m";
+    // Tone.Transport.loop = false;
+    </script>
+</body>
+
+</html>

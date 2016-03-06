@@ -1,4 +1,19 @@
 $(document).ready(function() {
+    var audio_context;
+    var recorder;
+    try {
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+        window.URL = window.URL || window.webkitURL;
+
+        audio_context = new AudioContext;
+    } catch (e) {}
+
+    navigator.getUserMedia({ audio: true }, startUserMedia, function(e) {});
+
+
+
+    //////////////////////////////////////////////
     $("#pitch").text(pitchShift);
     $("#animated-rain").hide();
 
@@ -18,6 +33,7 @@ $(document).ready(function() {
     var rainVolume = -4;
     var loopPlant8a;
 
+
     //there is one Transport for the whole project
     Tone.Transport.start();
 
@@ -27,6 +43,7 @@ $(document).ready(function() {
     spring6 = new SpringTime(pitchShift, 6, "triangle");
     spring5 = new SpringTime(pitchShift, 5, "sawtooth8");
     spring8 = new SpringTime(pitchShift, 8, "sawtooth");
+
     //set speed for each plant
     spring8.slowness(.15 * slowDown);
     spring1.slowness(2 * slowDown);
@@ -40,7 +57,7 @@ $(document).ready(function() {
 
 
     $('#slow-button').click(function() {
-
+stopRecording(this)
         slowDown = slowDown + 1;
         $("#play-back-speed").text(slowDown);
         spring8.slowness(.15 * slowDown);
@@ -51,7 +68,7 @@ $(document).ready(function() {
     });
 
     $('#fast-button').click(function() {
-
+startRecording(this);
         slowDown = slowDown - 1;
         $("#play-back-speed").text(slowDown);
         spring8.slowness(.15 * slowDown);
@@ -224,6 +241,7 @@ $(document).ready(function() {
 
     //loop plant bass
     $('#plant-bass-button').click(function() {
+       
         //toggle artwork
         var image = document.getElementById('plant-bass');
         if (image.src.match("before")) {
@@ -250,7 +268,7 @@ $(document).ready(function() {
     });
 
 
-     /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     //////////////PLAY PLANT SOUNDS////////////////
     ////////////////////////////////ONCE///////////////
 
@@ -338,11 +356,72 @@ $(document).ready(function() {
         $('#terrarium').css({ top: pushUp + '%' });
     }
 
-    function checkForFalse(){
-        if (plantbass_looping == false){
+    function checkForFalse() {
+        if (plantbass_looping == false) {
             console.log('dont loop plant Bass anymore')
         }
     }
+
+
+    function startUserMedia(stream) {
+        var input = audio_context.createMediaStreamSource(stream);
+        // __log('Media stream created.');
+
+        // Uncomment if you want the audio to feedback directly
+        //input.connect(audio_context.destination);
+        //__log('Input connected to audio context destination.');
+
+        recorder = new Recorder(input);
+        // __log('Recorder initialised.');
+    }
+
+    function startRecording(button) {
+        recorder && recorder.record();
+        // button.disabled = true;
+        // button.nextElementSibling.disabled = false;
+        // __log('Recording...');
+    }
+
+    function stopRecording(button) {
+        recorder && recorder.stop();
+        // button.disabled = true;
+        // button.previousElementSibling.disabled = false;
+        // __log('Stopped recording.');
+
+        // create WAV download link using audio data blob
+        createDownloadLink();
+
+        recorder.clear();
+    }
+
+    function createDownloadLink() {
+        recorder && recorder.exportWAV(function(blob) {
+            var url = URL.createObjectURL(blob);
+            var li = document.createElement('li');
+            var au = document.createElement('audio');
+            var hf = document.createElement('a');
+
+            au.controls = true;
+            au.src = url;
+            hf.href = url;
+            hf.download = new Date().toISOString() + '.wav';
+            hf.innerHTML = hf.download;
+            li.appendChild(au);
+            li.appendChild(hf);
+            recordingslist.appendChild(li);
+        });
+    }
+
+
+    //make the recorder output
+    // var rec = new Recorder(Tone.Master.output);
+    // //then just record the output
+    // rec.record();
+    // //...later on
+    // //when you're done recording, just stop the recording
+
+    //there are a few ways to use or download the recorded file
+    //take a look at the Recorder.js github page for an example. 
 
 
 

@@ -1,0 +1,107 @@
+Lyrics & Midi Track Information 
+
+© Hit Trax MIDI Files
+
+www.hittrax.com.au 
+
+www.midi.com.au
+
+********************************************
+
+Song Title   * We Found Love 
+
+Performed By * Rihanna (featuring Calvin Harris)	
+
+Publisher    * 
+
+Programmer   * Michael Braendler 2011
+
+Copyright    * © Hit Trax MIDI Files.  
+
+Unauthorised copying & distribution of MIDI data or audio data is prohibited
+
+********************************************
+
+Yellow diamonds in the light 
+And we're standing side by side 
+As your shadow crosses mine 
+What it takes to come alive 
+It's the way I'm feeling 
+I just can't deny 
+But I've gotta let it go 
+
+We found love in a hopeless place 
+We found love in a hopeless place 
+We found love in a hopeless place 
+We found love in a hopeless place 
+
+Shine a light through an open door 
+Love and life I will divide 
+Turn away ‘cause I need you more 
+Feel the heartbeat in my mind 
+It's the way I'm feeling 
+I just can't deny 
+But I've gotta let it go 
+
+We found love in a hopeless place 
+We found love in a hopeless place 
+We found love in a hopeless place 
+We found love in a hopeless place
+
+Yellow diamonds in the light 
+And we're standing side by side 
+As your shadow crosses mine 
+
+We found love in a hopeless place 
+We found love in a hopeless place 
+We found love in a hopeless place 
+We found love in a hopeless place
+
+We found love in a hopeless place 
+We found love in a hopeless place 
+We found love in a hopeless place 
+We found love in a hopeless place
+
+********************************************
+Key    * Gb major
+
+Time   * 3:37
+
+Length * 116 bars
+
+Tempo  * 128 bpm
+
+MIDI Channel Assignment:
+
+Ch 1  * Bass & Lead Synth 
+
+Ch 2  * Synth Bass 2
+
+Ch 3  * Draw Organ
+
+Ch 4  * Melody Guide (Tenor Sax)
+
+Ch 5  * 
+
+Ch 6  * Ocarina
+
+Ch 7  * Explosion FX
+
+Ch 8  * Bass & Lead Synth
+
+Ch 9  * Atmosphere
+
+Ch 10 * Electronic Drums 
+
+Ch 11 * Saw Wave
+
+Ch 12 * Square Wave
+
+Ch 13 * Sweep Pad
+
+Ch 14 * Burst Noise FX
+
+Ch 15 * Wind FX
+
+Ch 16 * Jet Take Off FX
+
