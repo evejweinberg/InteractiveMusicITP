@@ -5,7 +5,9 @@
     <title>WeFoundLove</title>
     <script type="text/javascript" src="https://tonejs.github.io/CDN/r6/Tone.min.js"></script>
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="MidiConverter.js"></script>
 </head>
 
 <body>
@@ -107,7 +109,7 @@ Tone.Transport.start(1);
 
 
     var seq = new Tone.Sequence(function(when, note) {
-        console.log(when)
+        // console.log(when)
             //subdivision defaults to "4n"
             //"8n" is the duration of each note (?)
         synth.triggerAttackRelease(note)
