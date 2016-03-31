@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <!-- <script src="libraries/p5.js" type="text/javascript"></script> -->
+    
+
+    <!-- <script src="libraries/p5.dom.js" type="text/javascript"></script> -->
+    <!-- <script src="libraries/p5.sound.js" type="text/javascript"></script> -->
+
+    <script src="sketch.js" type="text/javascript"></script>
+
+    <style> body {padding: 0; margin: 0;} canvas {vertical-align: top;} </style>
+  </head>
+  <body>
+     
+     <iframe class="youtube-player" width="800" height="450" id="player" type="text/html" src="http://www.youtube.com/embed/B2ZL8rdNsr0?wmode=opaque&autohide=1&autoplay=1&enablejsapi=1&version=3&playerapiid=ytplayer" frameborder="0">&lt;br /&gt;</iframe>
+     <div id="player"></div>
+     <script src="//www.youtube.com/iframe_api"></script>
+    
+    <script>
+    // searchButton = createButton('Shuffle');
+    // searchButton.style("color", "#8B008B");
+    // searchButton.position(0,0);
+
+    // searchButton.mousePressed(onYouTubePlayerAPIReady);
+     var tag = document.createElement('script');
+     
+      tag.src = "http://www.youtube.com/player_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubePlayerAPIReady() {
+        var id = "3saU5racsGE";
+        player = new YT.Player('player', {
+          playerVars: { 'autoplay': 1, 'controls': 1,'mute': 1, 'autohide':1,'wmode':'opaque' },
+          videoId: id,
+          events: {
+            'onReady': onPlayerReady}
+        });
+      }
+
+      //4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.mute();
+        event.target.loadVideoById("3saU5racsGE")
+      }
+    </script>
+  </body>
+</html>

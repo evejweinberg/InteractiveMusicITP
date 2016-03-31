@@ -157,7 +157,7 @@ $(document).ready(function() {
         var interval;
         // //change from false to true
         plant3a_looping = !plant3a_looping;
-        console.log('Is plant3 looping? ' + plant3a_looping)
+        // console.log('Is plant3 looping? ' + plant3a_looping)
             //     // console.log('clicked bush6 button')
         if (plant3a_looping) {
 

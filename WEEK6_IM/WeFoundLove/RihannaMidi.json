@@ -1,77 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>FatOscillator</title>
-
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<link rel="icon" type="image/png" sizes="174x174" href="./style/favicon.png">
-  <script type="text/javascript" src="https://tonejs.github.io/CDN/r6/Tone.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-	<!-- <script type="text/javascript" src="./scripts/draggabilly.js"></script> -->
-	<!-- <script type="text/javascript" src="./scripts/Logo.js"></script> -->
-	<!-- <script type="text/javascript" src="./scripts/StartAudioContext.js"></script> -->
-	<!-- <script type="text/javascript" src="./scripts/Interface.js"></script> -->
-
-	<!-- <link rel="stylesheet" type="text/css" href="./style/examples.css"> -->
-
-	<script type="text/javascript">
-		// jshint ignore: start
-	</script>
-
-</head>
-<body>	
-	<style type="text/css">
-
-	</style>
-	<div id="Content">
-		<div id="Title">Supersaw</div>
-		<div id="Explanation">
-			<a href="http://tonejs.org/docs/#FatOscillator">Tone.FatOscillator</a> creates multiple oscillators
-			and detunes them slightly from each other to thicken the sound. The <code>count</code> parameter sets 
-			the number of oscillators and <code>spread</code> sets the total spread (in cents) between the oscillators. 
-			<br><br>
-			FatOscillator is also available in <a href="http://tonejs.org/docs/#OmniOscillator">Tone.OmniOscillator</a> 
-			by prefixing another type with "fat", then use the count and spread to control the number and detune of the oscillators. To create a "supersaw": <code>omniOscillator.type = "fatsawtooth"</code>.
-			<br><br>
-			<a href="http://www.midiworld.com/files/1121/">Jump by Van Halen MIDI</a> converted using <a href="http://tonejs.github.io/MidiConvert/">MidiConvert</a>
-		</div>
-	</div>
-
-	<script type="text/javascript">
-
-		var synth = new Tone.PolySynth(3, Tone.SimpleSynth, {
-			"oscillator" : {
-				"type" : "sine",
-				"count" : 3,
-				"spread" : 30
-			},
-			"envelope": {
-				"attack": 0.01,
-				"decay": 0.1,
-				"sustain": 0.5,
-				"release": 0.4,
-				"attackCurve" : "exponential"
-			},
-		}).toMaster();
-
-		// Van Halen - Jump MIDI from http://www.midiworld.com/files/1121/
-		// converted using 
-		// 
-		// 
-		
-
-
-
-
-		var part = new Tone.Part(function(time, note){
-			synth.triggerAttackRelease(note.noteName, note.duration, time, note.velocity);
-		}, [
-			{
-
-    
+{
+  "We Found Love": [
+    {
       "time": "384i",
       "midiNote": 42,
       "noteName": "F#2",
@@ -64604,36 +64533,5 @@
       "velocity": 0.3464566929133858,
       "duration": "1i"
     }
-
-
-	]).start(0);
-
-	part.loop = true;
-	part.loopEnd = 300;
-
-	Tone.Transport.bpm.value = 132;
-	Tone.Transport.start();
-		
-	</script>
-
-<!-- 	<script id="GUI" type="text/javascript">
-		$(function(){
-			
-			new Interface.Button({
-				key : 32,
-				type : "toggle",
-				text : "Start",
-				activeText : "Stop",
-				start : function(){
-					Tone.Transport.start();
-				},
-				end : function(){
-					Tone.Transport.stop();
-				}
-			});
-		});
-	</script> -->
-
-	</style>
-</body>
-</html>
+  ]
+}
